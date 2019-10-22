@@ -1,5 +1,6 @@
 import requests
 import time
+import csv
 
 # If you are using a Jupyter notebook, uncomment the following line.
 # %matplotlib inline
@@ -8,11 +9,16 @@ from matplotlib.patches import Polygon
 from PIL import Image
 from io import BytesIO
 import re
+import os  
+
+heading = ["Web"] # for csv
+
 
 # convert list of timestamps and notes to dict with timestamps as keys and notes as values
 def convert(list): 
     res_dict = {list[i]: list[i + 1] for i in range(0, len(list), 2)} 
     return res_dict
+
 
 # Add your Computer Vision subscription key and endpoint to your environment variables.
 if "COMPUTER_VISION_SUBSCRIPTION_KEY" in os.environ:
@@ -84,7 +90,7 @@ for polygon in polygons:
 text = " ".join(justText)
 text = re.split(r'(\d:\d\d:\d\d)', text)  # need to figure out a regex way to accept multipl correct time formats
 
-# Create dictionary of timestamps and the notes that come after each timestamp
+# Create dictionary called "notes" of timestamps called and the notes that come after each timestamp
 notes = {}
 if not text[0].startswith("\d:\d\d:\d\d"): # if notes don't start with timestamp, add beginning as assumed "title"
     notes["title"] = text[0]
@@ -92,3 +98,9 @@ if not text[0].startswith("\d:\d\d:\d\d"): # if notes don't start with timestamp
 
 notes.update(convert(text))
 print(notes) # convert rest of list to dict and add onto dict
+
+
+# read dictionary into csv
+with open('test.csv', 'w') as f:
+    for key in notes.keys():
+        f.write("%s,%s\n"%(key,notes[key]))

@@ -14,7 +14,6 @@ function App() {
         
         <button class="ui button" class="ui blue button">
           <i class="upload icon"></i> Upload 
-          
         </button>
 
         <a

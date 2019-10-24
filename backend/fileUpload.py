@@ -22,23 +22,22 @@ CORS(app)
 
 @app.route('/upload', methods=['POST', 'GET'])
 def fileUpload():
-    return "hello"
-    target=os.path.join(UPLOAD_FOLDER,'test_upload_docs')
+    if request.method == 'POST':
+        target=os.path.join(UPLOAD_FOLDER,'test_upload_docs')
 
-    print(target)
+        if not os.path.isdir(target):
+            os.mkdir(target)
+        logger.info("welcome to upload")
+        file = request.files['file'] 
+        filename = secure_filename(file.filename)
+        destination="/".join([target, filename])
+        file.save(destination)
 
-    if not os.path.isdir(target):
-        os.mkdir(target)
-    logger.info("welcome to upload")
-    logger.info("file!!")
-    file = request.files['file'] 
-    filename = secure_filename(file.filename)
-    destination="/".join([target, filename])
-    file.save(destination)
-
-    session['uploadFilePath']=destination
-    response="Whatever you wish too return"
-    return response
+        session['uploadFilePath']=destination
+        response="this is returning"
+        return response
+    else:
+        return jsonify(destination)
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)

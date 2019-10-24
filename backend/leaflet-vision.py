@@ -34,13 +34,27 @@ if "COMPUTER_VISION_ENDPOINT" in os.environ:
 
 text_recognition_url = endpoint + "vision/v2.1/read/core/asyncBatchAnalyze"
 
+''' The following are used to analyze image URLs
 # Set image_url to the URL of an image that you want to analyze.
 image_url = "https://4.bp.blogspot.com/-pEv65fV9gxg/WIjaLJkFHxI/AAAAAAAAXDY/32Tyscwfp1IlVRWze_jhlWmINlNgBlPEACLcB/s1600/yt-timestamps-clickable.png"
-
 headers = {"Ocp-Apim-Subscription-Key": subscription_key}
 data = {"url": image_url}
 response = requests.post(text_recognition_url, headers=headers, json=data)
 response.raise_for_status()
+'''
+
+# Get local image to analyze
+image_path = "/Users/gkzhou/Dropbox/Code/leafletnotebook/backend/testnotes.JPG"
+
+
+image_data = open(image_path, "rb").read()
+headers = {'Ocp-Apim-Subscription-Key': subscription_key,
+           'Content-Type': 'application/octet-stream'}
+params = {'visualFeatures': 'Categories,Description,Color'}
+response = requests.post(
+    text_recognition_url, headers=headers, params=params, data=image_data)
+response.raise_for_status()
+
 
 # Extracting text requires two API calls: One call to submit the
 # image for processing, the other to retrieve the text found in the image.
@@ -76,7 +90,13 @@ if "recognitionResults" in analysis:
 
 # Display the image and overlay it with the extracted text.
 plt.figure(figsize=(15, 15))
-image = Image.open(BytesIO(requests.get(image_url).content))
+
+# This is for images from a URL
+#image = Image.open(BytesIO(requests.get(image_url).content))
+
+# Use for images from local drive
+image = Image.open(BytesIO(image_data))
+
 ax = plt.imshow(image)
 for polygon in polygons:
     vertices = [
@@ -88,11 +108,11 @@ for polygon in polygons:
     plt.text(vertices[0][0], vertices[0][1], text, fontsize=20, va="top")
 
 text = " ".join(justText)
-text = re.split(r'(\d:\d\d:\d\d)', text)  # need to figure out a regex way to accept multipl correct time formats
+text = re.split(r'(\d*:*\d+:\d+)', text)  # need to figure out a regex way to accept multipl correct time formats
 
 # Create dictionary called "notes" of timestamps called and the notes that come after each timestamp
 notes = {}
-if not text[0].startswith("\d:\d\d:\d\d"): # if notes don't start with timestamp, add beginning as assumed "title"
+if not text[0].startswith("\d*:*\d+:\d+"): # if notes don't start with timestamp, add beginning as assumed "title"
     notes["title"] = text[0]
     del text[0] 
 

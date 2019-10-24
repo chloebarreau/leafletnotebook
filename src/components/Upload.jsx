@@ -7,6 +7,7 @@ class Main extends React.Component {
 
     this.state = {
       imageURL: '',
+      imageText: '',
     };
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
@@ -23,9 +24,12 @@ class Main extends React.Component {
       method: 'POST',
       body: data,
     }).then((response) => {
-      response.text().then((body) => {
-        console.log(body);
-        this.setState({ imageURL: '/${body.file}' });
+      response.json().then((body) => {
+        console.log(body.filename);
+        this.setState({ 
+          imageURL: "http://localhost:5000/static/" + body.filename,
+          imageText: body.text,
+        });
       });
     });
   }
@@ -46,6 +50,9 @@ class Main extends React.Component {
             </button>
         </div>
         <img src={this.state.imageURL} alt="img" />
+
+        <p>{this.state.imageText}</p>
+
       </form>
     );
   }

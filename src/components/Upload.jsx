@@ -25,10 +25,10 @@ class Main extends React.Component {
       body: data,
     }).then((response) => {
       response.json().then((body) => {
-        console.log(body.filename);
+        console.log(body);
         this.setState({ 
           imageURL: "http://localhost:5000/static/" + body.filename,
-          imageText: body.text,
+          imageText: JSON.stringify(body.text),
         });
       });
     });
@@ -49,7 +49,6 @@ class Main extends React.Component {
             <i class="upload icon"></i> Upload 
             </button>
         </div>
-        <img src={this.state.imageURL} alt="img" />
 
         <p>{this.state.imageText}</p>
 

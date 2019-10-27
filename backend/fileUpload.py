@@ -1,4 +1,4 @@
-# Run this before uploding 
+# Run this before uploading files!!!
 
 import sys
 sys.path.append('/Users/gkzhou/Dropbox/Code/leafletnotebook/backend') # without this line it says there's no module named "leafletvision"
@@ -38,7 +38,7 @@ def fileUpload():
 
         session['uploadFilePath']=destination
 
-        test = leafletvision.getText(destination)
+        text = leafletvision.getText(destination)
         return jsonify(filename=filename, destination=destination, text=text)
     else:
         return "getting"

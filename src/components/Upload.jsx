@@ -1,5 +1,6 @@
 // Main code from https://medium.com/excited-developers/file-upload-with-react-flask-e115e6f2bf99
 import React from 'react';
+import { Button, Icon, Menu, Segment } from 'semantic-ui-react'
 
 class Main extends React.Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class Main extends React.Component {
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
   }
+
+  fileInputRef = React.createRef();
 
   handleUploadImage(ev) {
     ev.preventDefault();
@@ -38,7 +41,12 @@ class Main extends React.Component {
     return (
       <form onSubmit={this.handleUploadImage} encType="multipart/form-data">
         <div>
-          <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+        {/* https://benmarshall.me/styling-file-inputs/ */}
+          {/* <input ref={(ref) => { this.uploadInput = ref; }} type="file" /> */}
+          <Button as="label" htmlFor="file">
+            Choose File
+          </Button>
+          <input hidden type="file" id="file" onChange={this.uploadInput} />
         </div>
         <div>
           <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />

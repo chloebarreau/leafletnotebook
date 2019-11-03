@@ -33,6 +33,7 @@ class Main extends React.Component {
           imageURL: "http://localhost:5000/static/" + body.filename,
           imageText: JSON.stringify(body.text),
         });
+        this.props.onDataFetched(this.state.imageText);  {/* send image's text data to Notes component */}
       });
     });
   }

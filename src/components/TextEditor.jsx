@@ -21,6 +21,7 @@ class TextEditor extends React.Component {
   render() {
     return (
       <div>
+        
         <Form>
           <TextArea style={{ minHeight: 630 }} placeholder='Transcript' value={this.state.value} onChange={this.handleChange}/>
         </Form>

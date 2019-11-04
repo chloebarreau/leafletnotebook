@@ -21,7 +21,6 @@ class Main extends React.Component {
 
     const data = new FormData();
     data.append('file', this.uploadInput.files[0]);
-    data.append('filename', this.fileName.value);
 
     fetch('http://localhost:5000/upload', {
       method: 'POST',
@@ -52,9 +51,6 @@ class Main extends React.Component {
           <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
         </div>
         <div>
-          <div class="ui input">
-            <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="File name" />
-          </div>
         </div>
         <br />
         <div>

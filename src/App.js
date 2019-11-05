@@ -3,8 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import TextEditor from './components/TextEditor';
 import Tools from './components/Tools';
-import News from './components/News';
-import { Grid, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Grid, Icon, Menu, Segment, Sidebar,} from 'semantic-ui-react'
 
 function App() {
 
@@ -31,15 +30,6 @@ function App() {
   */}
       <Tools />
 
-      <Grid divided style={{ margin: '10px' }}>
-          <Grid.Row stretched>
-            <Grid.Column width={10}>
-              <Segment>
-                <News />
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
     </div>
   );
 }

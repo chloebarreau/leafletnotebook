@@ -1,6 +1,6 @@
 // Main code from https://medium.com/excited-developers/file-upload-with-react-flask-e115e6f2bf99
 import React from 'react';
-import { Button, Icon, Menu, Segment } from 'semantic-ui-react'
+import { Button, Input, Icon, Menu, Segment } from 'semantic-ui-react'
 
 class Main extends React.Component {
   constructor(props) {
@@ -21,7 +21,6 @@ class Main extends React.Component {
 
     const data = new FormData();
     data.append('file', this.uploadInput.files[0]);
-    data.append('filename', this.fileName.value);
 
     fetch('http://localhost:5000/upload', {
       method: 'POST',
@@ -29,10 +28,11 @@ class Main extends React.Component {
     }).then((response) => {
       response.json().then((body) => {
         console.log(body);
-        this.setState({ 
+        this.setState({
           imageURL: "http://localhost:5000/static/" + body.filename,
           imageText: JSON.stringify(body.text),
         });
+        this.props.onDataFetched(this.state.imageText);  {/* send image's text data to Notes component */}
       });
     });
   }
@@ -41,20 +41,21 @@ class Main extends React.Component {
     return (
       <form onSubmit={this.handleUploadImage} encType="multipart/form-data">
         <div>
-        {/* https://benmarshall.me/styling-file-inputs/ */}
-          {/* <input ref={(ref) => { this.uploadInput = ref; }} type="file" /> */}
+          {/* https://benmarshall.me/styling-file-inputs/ */}
+          {/* with this code I'm unable to save the chosen files on my computer, get error 
           <Button as="label" htmlFor="file">
             Choose File
           </Button>
           <input hidden type="file" id="file" onChange={this.uploadInput} />
+          */}
+          <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
         </div>
         <div>
-          <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
         </div>
         <br />
         <div>
-            <button type="submit" class="ui button" class="ui blue button">
-            <i class="upload icon"></i> Upload 
+          <button type="submit" class="ui button" class="ui blue button">
+            <i class="upload icon"></i> Upload
             </button>
         </div>
 

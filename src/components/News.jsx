@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Card, Icon, Image, Dropdown, Input, Header } from 'semantic-ui-react'
+import { Grid, Card, Icon, Image, Dropdown, Input, Header, Button } from 'semantic-ui-react'
 
 const sortOptions = [
   {
@@ -24,10 +24,11 @@ export default class News extends React.Component {
     super(props);
     this.state = {
       articles: [],
-      order: "", // default (empty string) order is by publication time
+      order: "", // default (empty string) order is by relevancy
       query: "",
       refreshing: true
     };
+    this.handleHighlightClick = this.handleHighlightClick.bind(this)
   }
   // Called after a component is mounted
   componentDidMount() {
@@ -53,6 +54,15 @@ export default class News extends React.Component {
       )
   }
 
+  handleHighlightClick() {
+    var selection = window.getSelection().toString();
+    console.log(selection);
+    this.setState({ query: selection}, function () {
+      console.log("selection query:" + this.state.query);
+      this.getNews();
+    });
+  }
+
   handleSearchChange(event, data) {
     console.log(data.value);
     this.setState({ query: data.value });
@@ -62,20 +72,22 @@ export default class News extends React.Component {
     this.getNews();
   }
 
-  handleClick(event, data) {
-    console.log("value: " + data.value)
-    this.setState({ order: data.value });
+  handleOrderClick(event, data) {
+    this.setState({ order: data.value }, function () {
+      console.log("order:" + this.state.order);
+      this.getNews();
+    });
+    console.log("data value" + data.value)
   }
 
   render() {
-    {/*}
-  {this.getNews()}  UNCOMMENT OUT WHEN PRESENTING, SAVES REQUESTS FOR LIMIT */}
     return (
       <div>
         <Grid>
           <Grid.Row>
             <Grid.Column>
               <Header as='h3'>Related News</Header>
+              <Button onClick={this.handleHighlightClick}>Search Highlight</Button>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -83,10 +95,11 @@ export default class News extends React.Component {
               <Input action={{
                 icon: "search icon",
                 onClick: (event) => this.handleSearchClick(event)
-              }} 
-            onChange={(event, data) => this.handleSearchChange(event, data)}
-              placeholder='Search' />
+              }}
+                onChange={(event, data) => this.handleSearchChange(event, data)}
+                placeholder='Search' />
             </Grid.Column>
+
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
@@ -94,7 +107,7 @@ export default class News extends React.Component {
                 placeholder='Sort by'
                 selection
                 options={sortOptions}
-                onChange={(event, data) => this.handleClick(event, data)}
+                onChange={(event, data) => this.handleOrderClick(event, data)}
               />
             </Grid.Column>
           </Grid.Row>

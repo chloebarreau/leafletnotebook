@@ -27,12 +27,13 @@ class Main extends React.Component {
       body: data,
     }).then((response) => {
       response.json().then((body) => {
-        console.log(body);
+        console.log(body.text);
         this.setState({
           imageURL: "http://localhost:5000/static/" + body.filename,
-          imageText: JSON.stringify(body.text),
+          imageText: body.text,
         });
-        this.props.onDataFetched(this.state.imageText);  {/* send image's text data to Notes component */}
+        console.log(this.state.imageText);
+        this.props.onDataFetched(this.state.imageText.title); {/* send image's text data to Tools component */ }
       });
     });
   }
@@ -58,8 +59,25 @@ class Main extends React.Component {
             <i class="upload icon"></i> Upload
             </button>
         </div>
+<ul>
+        { Object.keys(this.state.imageText).map(key => 
+    <li>{key} - {this.state.imageText[key]}</li>
+)
+}
 
-        <p>{this.state.imageText}</p>
+</ul>
+        
+        {/*}.map((items, index) => {
+          return (
+            <ul key={index}>
+              {Object.keys(items).map((key) => {
+                return (
+                  <li key={key + index}>{key}:{items[key]}</li>
+                )
+              })}
+            </ul>
+          )
+        })}*/}
 
       </form>
     );

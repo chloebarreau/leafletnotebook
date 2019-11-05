@@ -1,7 +1,8 @@
 import React from 'react';
 import Upload from './Upload'
 import TextEditor from './TextEditor'
-import { Grid, Icon, Menu, Segment } from 'semantic-ui-react'
+import News from './News';
+import { Grid, Icon, Menu, Segment, Header } from 'semantic-ui-react'
 
 class Tools extends React.Component {
   constructor(props) {
@@ -20,21 +21,27 @@ class Tools extends React.Component {
 
   render() {
     var text = this.state.sampleText; // JSON.parse(this.state.sampleText);
-    
+
 
     return (
       <div>
         <Grid columns={2} divided style={{ margin: '10px' }}>
           <Grid.Row stretched>
-            <Grid.Column width={10}>
-              <Segment>{this.state.sampleText}</Segment>
+            <Grid.Column width={11}>
+              <Segment style={{ overflow: 'auto', maxHeight: '93vh' }}>{this.state.sampleText}</Segment>
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
-            <Grid.Column width={6}>
+            <Grid.Column width={5}>
               <Segment>
+              <Header as='h3'>Notes</Header>
                 <Upload onDataFetched={this.handleResultChange} />
               </Segment>
-              <Segment>2</Segment>
+              <Segment>
+              <Header as='h3'>Quote Bank</Header>
+              </Segment>
+              <Segment style={{ overflow: 'auto', maxHeight: '58vh' }}>
+                <News />
+              </Segment>
             </Grid.Column>
           </Grid.Row>
         </Grid>

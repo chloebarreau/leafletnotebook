@@ -10,14 +10,10 @@ function App() {
   return (
     <div>
       
-      <Menu attached='top'>
+      <Menu secondary attached='top'>
         <Menu.Item>
           🌱Leaflet Notebook
         </Menu.Item>
-        <Menu.Menu position='right'></Menu.Menu>
-
-        <Menu.Menu position='right'>
-        </Menu.Menu>
       </Menu>
 {/*}
       <Grid>

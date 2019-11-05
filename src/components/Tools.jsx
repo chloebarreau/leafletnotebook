@@ -25,10 +25,13 @@ class Tools extends React.Component {
 
     return (
       <div>
-        <Grid columns={2} divided style={{ margin: '10px' }}>
+        <Grid columns={2} style={{ margin: '10px' }}>
           <Grid.Row stretched>
             <Grid.Column width={11}>
-              <Segment style={{ overflow: 'auto', maxHeight: '93vh' }}>{this.state.sampleText}</Segment>
+              <Segment style={{ overflow: 'auto', maxHeight: '93vh' }}>
+                <h3>{this.state.sampleText}</h3>
+                <p>Highlight some words and click "Search Highlight" to find news stories related to those words!</p>
+              </Segment>
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
             <Grid.Column width={5}>

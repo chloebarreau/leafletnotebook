@@ -4,7 +4,7 @@ import { Grid, Card, Icon, Image, Dropdown, Input, Header } from 'semantic-ui-re
 const sortOptions = [
   {
     key: 'Relevance',
-    text: 'Relevance',
+    text: 'Relevance (Default)',
     value: 'relevancy',
   },
   {
@@ -25,26 +25,22 @@ export default class News extends React.Component {
     this.state = {
       articles: [],
       order: "", // default (empty string) order is by publication time
+      query: "",
       refreshing: true
     };
   }
   // Called after a component is mounted
   componentDidMount() {
-    var url = 'https://newsapi.org/v2/everything?language=en&q=apple&sortBy=' + this.state.order + '&apiKey=b0bf77db986a4036b14d6e70b20142c7' //3260f1f5672447929f1fb8f3ec7199f4'
-
-    fetch(url)
-      .then(result => result.json())
-      .then(result => {
-        this.setState({
-          articles: result.articles,
-          refreshing: false,
-        });
-      }
-      )
+    this.getNews();
   }
 
-  componentDidUpdate() {
-    var url = 'https://newsapi.org/v2/everything?language=en&q=apple&sortBy=' + this.state.order + '&apiKey=b0bf77db986a4036b14d6e70b20142c7'
+  getNews() {
+    var url;
+    if (this.state.query) {
+      url = 'https://newsapi.org/v2/everything?language=en&q=' + this.state.query + '&sortBy=' + this.state.order + '&apiKey=b0bf77db986a4036b14d6e70b20142c7'
+    } else {
+      url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=b0bf77db986a4036b14d6e70b20142c7';
+    }
     console.log(url)
     fetch(url)
       .then(result => result.json())
@@ -57,12 +53,23 @@ export default class News extends React.Component {
       )
   }
 
+  handleSearchChange(event, data) {
+    console.log(data.value);
+    this.setState({ query: data.value });
+  }
+
+  handleSearchClick(event) {
+    this.getNews();
+  }
+
   handleClick(event, data) {
     console.log("value: " + data.value)
     this.setState({ order: data.value });
   }
 
   render() {
+    {/*}
+  {this.getNews()}  UNCOMMENT OUT WHEN PRESENTING, SAVES REQUESTS FOR LIMIT */}
     return (
       <div>
         <Grid>
@@ -73,7 +80,12 @@ export default class News extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Input action='Search' placeholder='' />
+              <Input action={{
+                icon: "search icon",
+                onClick: (event) => this.handleSearchClick(event)
+              }} 
+            onChange={(event, data) => this.handleSearchChange(event, data)}
+              placeholder='Search' />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

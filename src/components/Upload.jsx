@@ -59,14 +59,14 @@ class Main extends React.Component {
             <i class="upload icon"></i> Upload
             </button>
         </div>
-<ul>
-        { Object.keys(this.state.imageText).map(key => 
-    <li>{key} - {this.state.imageText[key]}</li>
-)
-}
+        <ul>
+          {Object.keys(this.state.imageText).map(key =>
+            <li>{key} - {this.state.imageText[key]}</li>
+          )
+          }
 
-</ul>
-        
+        </ul>
+
         {/*}.map((items, index) => {
           return (
             <ul key={index}>

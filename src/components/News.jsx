@@ -87,7 +87,7 @@ export default class News extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <Header as='h3'>Related News</Header>
-              <Button onClick={this.handleHighlightClick}>Search Highlight</Button>
+              <Button size='mini' onClick={this.handleHighlightClick}>Search Highlight</Button>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

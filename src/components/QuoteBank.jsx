@@ -27,12 +27,26 @@ export default class News extends React.Component {
     console.log("item: " + item.id)
   }
 
+  downloadTxtFile = () => {
+    const element = document.createElement("a");
+    const file = new Blob(this.state.quotes.map((quote) => (quote.value + "\n\n")), {type: 'text/plain'});
+    console.log(this.state.quotes)
+    element.href = URL.createObjectURL(file);
+    element.download = "transcript.txt";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
+
   render() {
     return (
       <div>
         <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}>
           <Header as='h3'>Quote Bank</Header>
-          <Button size='mini' onClick={this.addQuote}>Add Quote</Button>
+        
+          
+          <Button size='mini' onClick={this.addQuote}>Add Highlighted Words</Button>
+          <Button size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+          <p>Highlight quotes and add them here!</p>
           <Card.Group>
             {this.state.quotes.map((quote) => (
               <Card fluid>

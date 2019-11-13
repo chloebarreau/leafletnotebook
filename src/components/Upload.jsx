@@ -9,12 +9,25 @@ class Main extends React.Component {
     this.state = {
       imageURL: '',
       imageText: '',
+      uploaded: "false",
     };
+
+
+    this.handleUpload = this.handleUpload.bind(this);
+
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
   }
 
   fileInputRef = React.createRef();
+
+
+  handleUpload() {
+    this.setState({
+      uploaded: "true"
+    });
+  }
+
 
   handleUploadImage(ev) {
     ev.preventDefault();
@@ -55,17 +68,30 @@ class Main extends React.Component {
         </div>
         <br />
         <div>
-          <button type="submit" class="ui button" class="ui blue button">
+          <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload} /**********/ >
             <i class="upload icon"></i> Upload
             </button>
         </div>
-        <ul>
+    
+        {this.state.uploaded == "true" && 
+      <div>
+       <ul>
+         <li>0:28 - "my class needs some really good traitors these days"</li>
+         <li>1:09 - "create the best and fairest country"</li>
+         <li>2:13 - "want to live in a world that doesn't need philanthropy"</li>
+         <li>2:41 - "prefer that public schools function..."</li>
+       </ul>
+      </div>
+      }
+          {/*}
+          <ul>
           {Object.keys(this.state.imageText).map(key =>
             <li>{key} - {this.state.imageText[key]}</li>
           )
           }
-
+        
         </ul>
+        */}
 
         {/*}.map((items, index) => {
           return (

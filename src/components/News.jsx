@@ -9,7 +9,7 @@ const sortOptions = [
   },
   {
     key: 'Publish date',
-    text: 'Publish date',
+    text: 'Newest',
     value: 'publishedAt',
   },
   {
@@ -87,7 +87,7 @@ export default class News extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <Header as='h3'>Related News</Header>
-              <Button size='mini' onClick={this.handleHighlightClick}>Search Highlight</Button>
+              <Button size='mini' onClick={this.handleHighlightClick}>Search Highlighted Words</Button>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

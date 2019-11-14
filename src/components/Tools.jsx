@@ -6,8 +6,8 @@ import QuoteBank from './QuoteBank';
 import { Grid, Icon, Menu, Segment, Header, Tab, Button } from 'semantic-ui-react'
 import ReactDOM from 'react-dom';
 
-const panes = [
-  { menuItem: 'Tab 1', render: () => <Segment></Segment>},
+const  panes = [
+  { menuItem: 'Tab 1', render: () => <Upload onDataFetched={this.handleResultChange}/>},
   { menuItem: 'Tab 2', render: () => <QuoteBank /> },
   { menuItem: 'Tab 3', render: () => <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment>},
 ]
@@ -72,11 +72,14 @@ class Tools extends React.Component {
             </Grid.Column>
             <Grid.Column width={5}>
 
-              <Tab menu={{ secondary: true, pointing: true }}panes={panes}/>
-              <Segment>
-                <Header as='h3'>Notes</Header>
-                  <Upload onDataFetched={this.handleResultChange} />
-              </Segment>
+              <Tab menu={{ secondary: true, pointing: true }} 
+              panes = {[
+                { menuItem: 'Notes', render: () => <Segment><Upload onDataFetched={this.handleResultChange}/></Segment>},
+                { menuItem: 'Quotebank', render: () => <QuoteBank /> },
+                { menuItem: 'News', render: () => <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment>},
+              ]}
+              />
+
             </Grid.Column>
           </Grid.Row>
         </Grid>

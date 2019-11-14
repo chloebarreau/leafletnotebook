@@ -3,7 +3,13 @@ import Upload from './Upload'
 import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
-import { Grid, Icon, Menu, Segment, Header, Button } from 'semantic-ui-react'
+import { Grid, Icon, Menu, Segment, Header, Tab, Button } from 'semantic-ui-react'
+
+const panes = [
+  { menuItem: 'Tab 1', render: () => <Tab.Pane></Tab.Pane> },
+  { menuItem: 'Tab 2', render: () => <Tab.Pane><QuoteBank /></Tab.Pane> },
+  { menuItem: 'Tab 3', render: () => <Tab.Pane><Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment></Tab.Pane> },
+]
 
 class Tools extends React.Component {
   constructor(props) {
@@ -64,15 +70,11 @@ class Tools extends React.Component {
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
             <Grid.Column width={5}>
+
+              <Tab menu={{ secondary: true, pointing: true }}panes={panes}/>
               <Segment>
-              <Header as='h3'>Notes</Header>
-                <Upload onDataFetched={this.handleResultChange} />
-              </Segment>
-
-              <QuoteBank />
-
-              <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}>
-                <News />
+                <Header as='h3'>Notes</Header>
+                  <Upload onDataFetched={this.handleResultChange} />
               </Segment>
             </Grid.Column>
           </Grid.Row>

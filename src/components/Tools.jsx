@@ -4,11 +4,12 @@ import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
 import { Grid, Icon, Menu, Segment, Header, Tab, Button } from 'semantic-ui-react'
+import ReactDOM from 'react-dom';
 
 const panes = [
-  { menuItem: 'Tab 1', render: () => <Tab.Pane></Tab.Pane> },
-  { menuItem: 'Tab 2', render: () => <Tab.Pane><QuoteBank /></Tab.Pane> },
-  { menuItem: 'Tab 3', render: () => <Tab.Pane><Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment></Tab.Pane> },
+  { menuItem: 'Tab 1', render: () => <Segment></Segment>},
+  { menuItem: 'Tab 2', render: () => <QuoteBank /> },
+  { menuItem: 'Tab 3', render: () => <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment>},
 ]
 
 class Tools extends React.Component {

@@ -3,8 +3,7 @@ import Upload from './Upload'
 import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
-import { Grid, Icon, Menu, Segment, Header, Tab, Button } from 'semantic-ui-react'
-import ReactDOM from 'react-dom';
+import { Grid, Menu, Header, Segment, Modal, Tab, Button } from 'semantic-ui-react'
 
 const  panes = [
   { menuItem: 'Tab 1', render: () => <Upload onDataFetched={this.handleResultChange}/>},
@@ -48,14 +47,29 @@ class Tools extends React.Component {
 
     return (
       <div>
+
+      <Menu secondary attached='top'>
+        <Menu.Item>
+          🌱LEAFLET NOTEBOOK
+        </Menu.Item>  
+        <Menu.Item position='right'>
+        <Modal style={{alignItems: 'center', margin: 'auto',}} trigger={<Button><i class="upload icon"></i>Upload</Button>}>
+          <Header icon='upload' content='Upload Audio and Notes' />
+            <Modal.Description>
+                <button type="submit" class="ui blue button" onClick={this.handleUpload}>
+                  Transcribe audio
+                </button>
+                <Upload onDataFetched={this.handleResultChange}/>
+            </Modal.Description>
+          </Modal>
+        </Menu.Item>      
+      </Menu>    
+
         <Grid columns={2} style={{ margin: '10px' }}>
           <Grid.Row stretched>
             <Grid.Column width={11}>
               <Segment style={{ overflow: 'auto', maxHeight: '90vh' }}>
                 <h3>{this.state.sampleText}</h3>
-                <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload}>
-            <i class="upload icon"></i> Upload and Transcribe
-            </button>
                 {this.state.uploaded == "true" && <div>
                 <p>SHAPIRO: You were one of 18 people in the top one-tenth of 1% who signed a letter supporting a wealth tax for households with $50 million or more in assets. Just briefly, why?</p>
     <p>DISNEY: Well, nothing in history ever moved forward just because people advocated for their own interests. Things really change when people are traitors to their class. And my class needs some really good traitors these days.</p>
@@ -74,9 +88,9 @@ class Tools extends React.Component {
 
               <Tab menu={{ secondary: true, pointing: true }} 
               panes = {[
-                { menuItem: 'Notes', render: () => <Segment><Upload onDataFetched={this.handleResultChange}/></Segment>},
+                { menuItem: 'Notes', render: () => <Segment></Segment>},
                 { menuItem: 'Quotebank', render: () => <QuoteBank /> },
-                { menuItem: 'News', render: () => <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment>},
+                { menuItem: 'News', render: () => <Segment style={{ overflow: 'auto', maxHeight: '70vh' }}><News /></Segment>},
               ]}
               />
 

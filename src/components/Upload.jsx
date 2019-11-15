@@ -69,7 +69,7 @@ class Main extends React.Component {
         <br />
         <div>
           <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload} /**********/ >
-            <i class="upload icon"></i> Upload
+            Upload Image
             </button>
         </div>
     

@@ -43,20 +43,23 @@ export default class News extends React.Component {
         <Grid padded>
           <Grid.Row>
             <Grid.Column>
-              <Header as='h3'>Quote Bank</Header>
-              <Button size='mini' onClick={this.addQuote} className="green-btn">Add Highlight</Button>
-              <Button size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                <Header as='h3'>Quote Bank</Header>
+                <div className="right-btn">
+                  <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+                </div>
+              </div>
+              <Button onClick={this.addQuote} className="green-btn">Add Highlight</Button>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <p>Highlight quotes and add them here!</p>
+            {this.state.quotes.length === 0 && <p>Highlight quotes and add them here</p>}
               <Card.Group>
                 {this.state.quotes.map((quote) => (
                   <Card fluid>
                     <Card.Content>
                       <Card.Description>{quote.value}
-
                         <Button basic icon color='red' size="mini" floated='right' onClick={this.delete.bind(this, quote)}>
                           <Icon name='trash alternate outline' />
                         </Button>

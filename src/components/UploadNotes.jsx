@@ -57,23 +57,23 @@ class UploadImage extends React.Component {
     return (
       <Grid padded>
         <Grid.Row>
-            <Grid.Column>
-      <form onSubmit={this.handleUploadImage} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
-        <Header as='h3'>Notes</Header>
-        <div>
+          <Grid.Column>
+            <form onSubmit={this.handleUploadImage} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
+              <Header as='h3'>Notes</Header>
+              <div>
 
-          <label for="hidden-new-file" class="ui blue button">
-            Upload Notes
+                <label for="hidden-new-file" className="ui button">
+                  Upload Notes
           </label>
-          <input type="file" id="hidden-new-file"
-            ref={(ref) => { this.uploadInput = ref; }}
-            onChange={this.handleUploadImage}
-            style={{ display: "none" }}>
-          </input>
+                <input type="file" id="hidden-new-file"
+                  ref={(ref) => { this.uploadInput = ref; }}
+                  onChange={this.handleUploadImage}
+                  style={{ display: "none" }}>
+                </input>
 
-        </div>
-        <br />
-        {/*}
+              </div>
+              <br />
+              {/*}
         {this.state.uploaded == "true" &&
           <div>
             <ul>
@@ -85,18 +85,29 @@ class UploadImage extends React.Component {
           </div>
         }
       */}
-{this.state.uploaded == "true" &&
-        <Segment>
-          <ul>
-            {Object.keys(this.state.imageText).map(key =>
-              <li>{key} - {this.state.imageText[key]}</li>
-            )
-            }
-          </ul>
-        </Segment>
-  }
+              {this.state.uploaded == "true" &&
+                <Segment className="notes">
+                  <ul>
+                    {Object.keys(this.state.imageText).map(key => {
+                      if (key !== "title")
+                        return (
+                          <li>
+                            <div className="timestamp">
+                              {key}
+                            </div>
+                            <div className="note">
+                              {this.state.imageText[key]}
+                            </div>
+                          </li>)
+                      return
+                    }
+                    )
+                    }
+                  </ul>
+                </Segment>
+              }
 
-        {/*}.map((items, index) => {
+              {/*}.map((items, index) => {
           return (
             <ul key={index}>
               {Object.keys(items).map((key) => {
@@ -108,9 +119,9 @@ class UploadImage extends React.Component {
           )
         })}*/}
 
-      </form>
-      </Grid.Column>
-      </Grid.Row>
+            </form>
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
     );
   }

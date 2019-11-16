@@ -51,7 +51,7 @@ class Main extends React.Component {
     return (
       <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
         <div>
-          <label for="hidden-new-audio-file" class="ui blue button">
+          <label for="hidden-new-audio-file" class="ui button">
             Upload Audio
           </label>
           <input type="file" id="hidden-new-audio-file"

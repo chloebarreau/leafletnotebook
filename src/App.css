@@ -2,6 +2,7 @@
   --main-green: #4CCCAC;
   --medium-green: #c4efe5;
   --light-green: #f3fcf9;
+  --light-gray: #a6a6a6;
 }
 
 /******Text/Background******/
@@ -19,16 +20,31 @@
   font-size: 20px;
   color: var(--main-green);
 }
+.notes ul {
+  padding: 0 16px;
+  list-style-type: none;
+}
+.timestamp {
+  font-size: 12px;
+  color: var(--light-gray);
+}
+.note {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
 
 
 
 /******Buttons******/
-.green-btn{
+.green-btn {
   background-color: var(--main-green) !important;
   color: white !important;
 }
 .light-green-btn {
   background-color: var(--medium-green) !important;  /* delete and leave as gray????????? */
+}
+.right-btn {
+  margin-top: -4px;
 }
 
 

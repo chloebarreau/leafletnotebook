@@ -1,9 +1,18 @@
 :root {
   --main-green: #4CCCAC;
-  --medium-green: #ddf5ef;
+  --medium-green: #c4efe5;
+  --light-green: #f3fcf9;
 }
 
-/******Text******/
+/******Text/Background******/
+.green-background { /* set right sidebar background color */
+  width: 31%;  /* 5/16 columns */
+  height: 100%;
+  top: 0;
+  padding: 24px 8px 16px 16px;
+  background-color: var(--light-green) !important;
+  position: fixed;
+}
 .large-text {
   font-family: "Avenir Next";
   font-weight: 600;
@@ -14,8 +23,12 @@
 
 
 /******Buttons******/
+.green-btn{
+  background-color: var(--main-green) !important;
+  color: white !important;
+}
 .light-green-btn {
-  background-color: var(--medium-green) !important;
+  background-color: var(--medium-green) !important;  /* delete and leave as gray????????? */
 }
 
 
@@ -24,7 +37,9 @@
   border: 0 none !important;
   /*box-shadow: none !important;  COMMENTED OUT TO SEE EDGES WHILE formatting, UNCOMMENT FOR FINAL DEMO/LOOK!!!!!!!!!!!!!!*/
 }
-
+.bitOfPadding {
+  margin: 2px;
+}
 .ui.menu {
   border-bottom: 0 none !important;
   box-shadow: none;

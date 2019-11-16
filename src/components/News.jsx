@@ -83,7 +83,7 @@ export default class News extends React.Component {
   render() {
     return (
       <div>
-        <Grid>
+        <Grid padded>
           <Grid.Row>
             <Grid.Column>
               <Header as='h3'>Related News</Header>

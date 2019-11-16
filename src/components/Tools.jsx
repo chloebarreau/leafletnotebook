@@ -1,10 +1,10 @@
 import React from 'react';
-import UploadImage from './UploadImage'
+import UploadNotes from './UploadNotes'
 import UploadAudio from './UploadAudio'
 import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
-import { Grid, Menu, Header, Segment, Modal, Tab, Button } from 'semantic-ui-react'
+import { Grid, Menu, Header, Segment, Modal, Tab, Button, Divider } from 'semantic-ui-react'
 
 class Tools extends React.Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class Tools extends React.Component {
     return (
       <div>
         <Grid columns={2} style={{ margin: '10px' }}>
-          <Grid.Row stretched>
+          <Grid.Row>
             <Grid.Column width={11}>
               <Menu secondary>
                 <Menu.Item>
@@ -54,12 +54,12 @@ class Tools extends React.Component {
                       <button type="submit" class="ui blue button" onClick={this.handleUpload}>
                         Transcribe audio
                 </button>
-                      <UploadImage onDataFetched={this.handleResultChange} />
+                      <UploadNotes onDataFetched={this.handleResultChange} />
                     </Modal.Description>
                   </Modal>
                 </Menu.Item>
               </Menu>
-              
+
               <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
                 <h2>{this.state.title}</h2>
                 <UploadAudio />
@@ -83,17 +83,25 @@ class Tools extends React.Component {
               </Segment>
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
+
             <Grid.Column width={5}>
-
-              <Tab menu={{ secondary: true, pointing: true }}
-                panes={[
-                  { menuItem: 'Notes', render: () => <Segment><UploadImage onDataFetched={this.handleResultChange}/></Segment> },
-                  { menuItem: 'Quotebank', render: () => <QuoteBank /> },
-                  { menuItem: 'News', render: () => <Segment style={{ overflow: 'auto', maxHeight: '70vh' }}><News /></Segment> },
-                ]}
-              />
-
+              <span className="green-background">
+                <div className="smallMargin">
+                  <Tab menu={{ secondary: true, pointing: true }}
+                    panes={[
+                      {
+                        menuItem: 'Notes', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}>
+                          <UploadNotes onDataFetched={this.handleResultChange} />
+                        </div>
+                      },
+                      { menuItem: 'Quote Bank', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><QuoteBank /></div> },
+                      { menuItem: 'News', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><News /></div> },
+                    ]}
+                  />
+                </div>
+              </span>
             </Grid.Column>
+
           </Grid.Row>
         </Grid>
       </div>

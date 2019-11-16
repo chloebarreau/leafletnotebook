@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Segment, Header, Icon } from 'semantic-ui-react'
+import { Card, Button, Segment, Grid, Header, Icon } from 'semantic-ui-react'
 
 export default class News extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ export default class News extends React.Component {
 
   downloadTxtFile = () => {
     const element = document.createElement("a");
-    const file = new Blob(this.state.quotes.map((quote) => (quote.value + "\n\n")), {type: 'text/plain'});
+    const file = new Blob(this.state.quotes.map((quote) => (quote.value + "\n\n")), { type: 'text/plain' });
     console.log(this.state.quotes)
     element.href = URL.createObjectURL(file);
     element.download = "transcript.txt";
@@ -40,28 +40,34 @@ export default class News extends React.Component {
   render() {
     return (
       <div>
-        <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}>
-          <Header as='h3'>Quote Bank</Header>
-        
-          
-          <Button size='mini' onClick={this.addQuote}>Add Highlighted Words</Button>
-          <Button size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
-          <p>Highlight quotes and add them here!</p>
-          <Card.Group>
-            {this.state.quotes.map((quote) => (
-              <Card fluid>
-                <Card.Content>
-                  <Card.Description>{quote.value}
-                  
-                  <Button basic icon color='red' size="mini" floated='right' onClick={this.delete.bind(this, quote)}>
-                    <Icon name='trash alternate outline' />
-                  </Button>
-                  </Card.Description>
-                </Card.Content>
-              </Card>
-            ))}
-          </Card.Group>
-        </Segment>
+        <Grid padded>
+          <Grid.Row>
+            <Grid.Column>
+              <Header as='h3'>Quote Bank</Header>
+              <Button size='mini' onClick={this.addQuote} className="green-btn">Add Highlight</Button>
+              <Button size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <p>Highlight quotes and add them here!</p>
+              <Card.Group>
+                {this.state.quotes.map((quote) => (
+                  <Card fluid>
+                    <Card.Content>
+                      <Card.Description>{quote.value}
+
+                        <Button basic icon color='red' size="mini" floated='right' onClick={this.delete.bind(this, quote)}>
+                          <Icon name='trash alternate outline' />
+                        </Button>
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                ))}
+              </Card.Group>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }

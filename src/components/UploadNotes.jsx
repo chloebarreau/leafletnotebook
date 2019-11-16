@@ -1,6 +1,6 @@
 // Main code from https://medium.com/excited-developers/file-upload-with-react-flask-e115e6f2bf99
 import React from 'react';
-import { Button, Input, Icon, Menu, Segment } from 'semantic-ui-react'
+import { Button, Input, Icon, Menu, Segment, Header, Grid } from 'semantic-ui-react'
 
 class UploadImage extends React.Component {
   constructor(props) {
@@ -45,6 +45,7 @@ class UploadImage extends React.Component {
         this.setState({
           imageURL: "http://localhost:5000/static/" + body.filename,
           imageText: body.text,
+          uploaded: "true"
         });
         console.log(this.state.imageText);
         this.props.onDataFetched(this.state.imageText.title); {/* send image's text data to Tools component */ }
@@ -54,18 +55,22 @@ class UploadImage extends React.Component {
 
   render() {
     return (
+      <Grid padded>
+        <Grid.Row>
+            <Grid.Column>
       <form onSubmit={this.handleUploadImage} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
+        <Header as='h3'>Notes</Header>
         <div>
 
           <label for="hidden-new-file" class="ui blue button">
             Upload Notes
           </label>
-          <input type="file" id="hidden-new-file" 
-            ref={(ref) => { this.uploadInput = ref; }} 
-            onChange={this.handleUploadImage} 
+          <input type="file" id="hidden-new-file"
+            ref={(ref) => { this.uploadInput = ref; }}
+            onChange={this.handleUploadImage}
             style={{ display: "none" }}>
-            </input>
-            
+          </input>
+
         </div>
         <br />
         {/*}
@@ -80,14 +85,16 @@ class UploadImage extends React.Component {
           </div>
         }
       */}
-
+{this.state.uploaded == "true" &&
+        <Segment>
           <ul>
-          {Object.keys(this.state.imageText).map(key =>
-            <li>{key} - {this.state.imageText[key]}</li>
-          )
-          }
-        
-        </ul>
+            {Object.keys(this.state.imageText).map(key =>
+              <li>{key} - {this.state.imageText[key]}</li>
+            )
+            }
+          </ul>
+        </Segment>
+  }
 
         {/*}.map((items, index) => {
           return (
@@ -102,6 +109,9 @@ class UploadImage extends React.Component {
         })}*/}
 
       </form>
+      </Grid.Column>
+      </Grid.Row>
+      </Grid>
     );
   }
 }

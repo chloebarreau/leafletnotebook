@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button, Input, Icon, Menu, Segment } from 'semantic-ui-react'
 
-class Main extends React.Component {
+class UploadImage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -10,20 +10,13 @@ class Main extends React.Component {
       imageURL: '',
       imageText: '',
       /*test audio*/
-      audioURL: '',
-      audioText: '',
 
       uploaded: "false",
     };
 
 
     this.handleUpload = this.handleUpload.bind(this);
-
-
     this.handleUploadImage = this.handleUploadImage.bind(this);
-
-
-    this.handleUploadAudio = this.handleUploadAudio.bind(this);
   }
 
   fileInputRef = React.createRef();
@@ -59,45 +52,20 @@ class Main extends React.Component {
     });
   }
 
-
-  /* tryig audio upload */
-  handleUploadAudio(ev) {
-    ev.preventDefault();
-
-    const data = new FormData();
-    data.append('file', this.uploadInput.files[0]);
-
-    fetch('http://localhost:5000/upload', {
-      method: 'POST',
-      body: data,
-    }).then((response) => {
-      response.json().then((body) => {
-        console.log(body.text);
-        this.setState({
-          audioURL: "http://localhost:5000/static/" + body.filename,
-          audioText: body.text,
-        });
-        console.log("Video transcript:" + this.state.audioText); /*change back to imageText */
-        {/*this.props.onDataFetched(this.state.imageText.title);  send image's text data to Tools component */ }
-      });
-    });
-  }
-
-
-
-
   render() {
     return (
       <form onSubmit={this.handleUploadImage} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
         <div>
+
           <label for="hidden-new-file" class="ui blue button">
-            <i class="upload icon"></i> Upload Notes
+            Upload Notes
           </label>
           <input type="file" id="hidden-new-file" 
             ref={(ref) => { this.uploadInput = ref; }} 
             onChange={this.handleUploadImage} 
             style={{ display: "none" }}>
             </input>
+            
         </div>
         <br />
         {/*}
@@ -138,4 +106,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default UploadImage;

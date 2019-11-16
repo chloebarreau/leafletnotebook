@@ -9,13 +9,11 @@ class Main extends React.Component {
     this.state = {
       audioURL: '',
       audioText: '',
-
       uploaded: "false",
     };
 
 
     this.handleUpload = this.handleUpload.bind(this);
-
     this.handleUploadAudio = this.handleUploadAudio.bind(this);
   }
 
@@ -53,17 +51,17 @@ class Main extends React.Component {
     return (
       <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
         <div>
-          <label for="hidden-new-file" class="ui blue button">
-            <i class="upload icon"></i> Upload Audio
+          <label for="hidden-new-audio-file" class="ui blue button">
+            Upload Audio
           </label>
-          <input type="file" id="hidden-new-file"
+          <input type="file" id="hidden-new-audio-file"
             ref={(ref) => { this.uploadInput = ref; }}
             onChange={this.handleUploadAudio}
             style={{ display: "none" }}>
           </input>
         </div>
         <br />
-        Text {this.state.audioText}
+        Transcript: {this.state.audioText}
 {/*}
         <ul>
           {Object.keys(this.state.imageText).map(key =>

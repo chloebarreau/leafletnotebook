@@ -1,3 +1,30 @@
+:root {
+  --main-green: #4CCCAC;
+  --medium-green: #ddf5ef;
+}
+
+/******Text******/
+.large-text {
+  font-family: "Avenir Next";
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--main-green);
+}
+
+
+
+/******Buttons******/
+.light-green-btn {
+  background-color: var(--medium-green) !important;
+}
+
+
+/******Segments******/
+.no-border {
+  border: 0 none !important;
+  /*box-shadow: none !important;  COMMENTED OUT TO SEE EDGES WHILE formatting, UNCOMMENT FOR FINAL DEMO/LOOK!!!!!!!!!!!!!!*/
+}
+
 .ui.menu {
   border-bottom: 0 none !important;
   box-shadow: none;

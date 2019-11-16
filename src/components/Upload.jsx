@@ -9,6 +9,10 @@ class Main extends React.Component {
     this.state = {
       imageURL: '',
       imageText: '',
+      /*test audio*/
+      audioURL: '',
+      audioText: '',
+
       uploaded: "false",
     };
 
@@ -17,6 +21,9 @@ class Main extends React.Component {
 
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
+
+
+    this.handleUploadAudio = this.handleUploadAudio.bind(this);
   }
 
   fileInputRef = React.createRef();
@@ -26,6 +33,7 @@ class Main extends React.Component {
     this.setState({
       uploaded: "true"
     });
+    console.log("onchenged")
   }
 
 
@@ -51,39 +59,60 @@ class Main extends React.Component {
     });
   }
 
+
+  /* tryig audio upload */
+  handleUploadAudio(ev) {
+    ev.preventDefault();
+
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+
+    fetch('http://localhost:5000/upload', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {
+      response.json().then((body) => {
+        console.log(body.text);
+        this.setState({
+          audioURL: "http://localhost:5000/static/" + body.filename,
+          audioText: body.text,
+        });
+        console.log("Video transcript:" + this.state.audioText); /*change back to imageText */
+        {/*this.props.onDataFetched(this.state.imageText.title);  send image's text data to Tools component */ }
+      });
+    });
+  }
+
+
+
+
   render() {
     return (
-      <form onSubmit={this.handleUploadImage} encType="multipart/form-data">
+      <form onSubmit={this.handleUploadImage} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
         <div>
-          {/* https://benmarshall.me/styling-file-inputs/ */}
-          {/* with this code I'm unable to save the chosen files on my computer, get error 
-          <Button as="label" htmlFor="file">
-            Choose File
-          </Button>
-          <input hidden type="file" id="file" onChange={this.uploadInput} />
-          */}
-          <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-        </div>
-        <div>
+          <label for="hidden-new-file" class="ui blue button">
+            <i class="upload icon"></i> Upload Notes
+          </label>
+          <input type="file" id="hidden-new-file" 
+            ref={(ref) => { this.uploadInput = ref; }} 
+            onChange={this.handleUploadImage} 
+            style={{ display: "none" }}>
+            </input>
         </div>
         <br />
-        <div>
-          <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload} /**********/ >
-            Upload Image
-            </button>
-        </div>
-    
-        {this.state.uploaded == "true" && 
-      <div>
-       <ul>
-         <li>0:28 - "my class needs some really good traitors these days"</li>
-         <li>1:09 - "create the best and fairest country"</li>
-         <li>2:13 - "want to live in a world that doesn't need philanthropy"</li>
-         <li>2:41 - "prefer that public schools function..."</li>
-       </ul>
-      </div>
-      }
-          {/*}
+        {/*}
+        {this.state.uploaded == "true" &&
+          <div>
+            <ul>
+              <li>0:28 - "my class needs some really good traitors these days"</li>
+              <li>1:09 - "create the best and fairest country"</li>
+              <li>2:13 - "want to live in a world that doesn't need philanthropy"</li>
+              <li>2:41 - "prefer that public schools function..."</li>
+            </ul>
+          </div>
+        }
+      */}
+
           <ul>
           {Object.keys(this.state.imageText).map(key =>
             <li>{key} - {this.state.imageText[key]}</li>
@@ -91,7 +120,6 @@ class Main extends React.Component {
           }
         
         </ul>
-        */}
 
         {/*}.map((items, index) => {
           return (

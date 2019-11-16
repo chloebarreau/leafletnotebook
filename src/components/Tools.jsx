@@ -4,8 +4,7 @@ import UploadAudio from './UploadAudio'
 import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
-import { Grid, Icon, Menu, Segment, Header, Tab, Button } from 'semantic-ui-react'
-import ReactDOM from 'react-dom';
+import { Grid, Menu, Header, Segment, Modal, Tab, Button } from 'semantic-ui-react'
 
 const  panes = [
   { menuItem: 'Tab 1', render: () => <Upload onDataFetched={this.handleResultChange}/>},
@@ -49,6 +48,24 @@ class Tools extends React.Component {
 
     return (
       <div>
+
+      <Menu secondary attached='top'>
+        <Menu.Item>
+          🌱LEAFLET NOTEBOOK
+        </Menu.Item>  
+        <Menu.Item position='right'>
+        <Modal style={{alignItems: 'center', margin: 'auto',}} trigger={<Button><i class="upload icon"></i>Upload</Button>}>
+          <Header icon='upload' content='Upload Audio and Notes' />
+            <Modal.Description>
+                <button type="submit" class="ui blue button" onClick={this.handleUpload}>
+                  Transcribe audio
+                </button>
+                <Upload onDataFetched={this.handleResultChange}/>
+            </Modal.Description>
+          </Modal>
+        </Menu.Item>      
+      </Menu>    
+
         <Grid columns={2} style={{ margin: '10px' }}>
           <Grid.Row stretched>
             <Grid.Column width={11}>
@@ -79,9 +96,9 @@ class Tools extends React.Component {
 
               <Tab menu={{ secondary: true, pointing: true }} 
               panes = {[
-                { menuItem: 'Notes', render: () => <Segment><Upload onDataFetched={this.handleResultChange}/></Segment>},
+                { menuItem: 'Notes', render: () => <Segment></Segment>},
                 { menuItem: 'Quotebank', render: () => <QuoteBank /> },
-                { menuItem: 'News', render: () => <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment>},
+                { menuItem: 'News', render: () => <Segment style={{ overflow: 'auto', maxHeight: '70vh' }}><News /></Segment>},
               ]}
               />
 

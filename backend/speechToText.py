@@ -7,7 +7,7 @@ from google.cloud.speech import enums
 from google.cloud.speech import types
 
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "backend/Leaflet-8293d10532a5.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "../Leaflet-8293d10532a5.json"
 
 # Instantiates a client
 client = speech.SpeechClient()

@@ -103,6 +103,15 @@ class Tools extends React.Component {
             </Grid.Column>
 
           </Grid.Row>
+          <figure>
+              <figcaption>Listen to the T-Rex:</figcaption>
+              <audio 
+                  controls
+                  src="../S2_EP2.mp3">
+                      Your browser does not support the
+                      <code>audio</code> element.
+              </audio>
+          </figure>
         </Grid>
       </div>
     );

@@ -47,6 +47,11 @@
   margin-top: -4px;
 }
 
+/******Audio******/
+audio {
+  color: #4CCCAC
+} 
+
 
 /******Segments******/
 .no-border {

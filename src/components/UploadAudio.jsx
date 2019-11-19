@@ -8,13 +8,15 @@ class Main extends React.Component {
 
     this.state = {
       audioURL: '',
-      audioText: '',
+      audioText: [],
+      timestamps: [],
       uploaded: "false",
     };
 
 
     this.handleUpload = this.handleUpload.bind(this);
     this.handleUploadAudio = this.handleUploadAudio.bind(this);
+    this.playWord = this.playWord.bind(this);
   }
 
   fileInputRef = React.createRef();
@@ -41,28 +43,49 @@ class Main extends React.Component {
         this.setState({
           audioURL: "http://localhost:5000/static/" + body.filename,
           audioText: body.text,
+          timestamps: body.timestamps
         });
-        console.log("Video transcript:" + this.state.audioText); 
+        console.log("Video transcript: " + this.state.audioText);
+        console.log("Timestamps: " + this.state.timestamps);
       });
     });
   }
 
+  playWord(event) {
+    const id = event.target.id;
+    console.log(this.state.timestamps[id]);
+  }
+
   render() {
+    var indexNumber = 0;
     return (
-      <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
-        <div>
-          <label for="hidden-new-audio-file" class="ui button">
-            Upload Audio
+      <div className="transcript">
+        <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
+          <div>
+            <label for="hidden-new-audio-file" class="ui button">
+              Upload Audio
           </label>
-          <input type="file" id="hidden-new-audio-file"
-            ref={(ref) => { this.uploadInput = ref; }}
-            onChange={this.handleUploadAudio}
-            style={{ display: "none" }}>
-          </input>
-        </div>
-        <br />
-        Transcript: {this.state.audioText}
-{/*}
+            <input type="file" id="hidden-new-audio-file"
+              ref={(ref) => { this.uploadInput = ref; }}
+              onChange={this.handleUploadAudio}
+              style={{ display: "none" }}>
+            </input>
+          </div>
+          <br />
+          <ul>
+            {this.state.audioText.map((item) => {
+              console.log(indexNumber)
+              if (item.includes("2::") && item.substring(4, item.length) != "")
+                return (<li className="speaker-red">
+                  {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
+                </li>)
+              else
+                return (<li className="speaker-yellow">
+                  {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
+                </li>)
+            })}
+          </ul>
+          {/*}
         <ul>
           {Object.keys(this.state.imageText).map(key =>
             <li>{key} - {this.state.imageText[key]}</li>
@@ -71,7 +94,13 @@ class Main extends React.Component {
 
         </ul>
         */}
-      </form>
+        </form>
+        <audio controls
+          src={this.state.audioURL}>
+          Your browser does not support the
+                      <code>audio</code> element.
+              </audio>
+      </div>
     );
   }
 }

@@ -47,6 +47,15 @@
   margin-top: -4px;
 }
 
+/******Audio******/
+audio {
+  color: #4CCCAC
+} 
+
+figure {
+  position: fixed;
+  bottom: 0;
+}
 
 /******Segments******/
 .no-border {

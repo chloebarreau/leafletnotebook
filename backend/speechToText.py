@@ -43,35 +43,42 @@ def getText(file_name):
     words_info = result.alternatives[0].words
 
     tag=1
-    speaker=""
+    speakerWords=""
+    timestamps=[]
+    transcript=""
+    text=[]
 
     for word in words_info:
         #print("getting word")
         if word.speaker_tag==tag:
-            speaker=speaker+" "+word.word
+            speakerWords=speakerWords+" "+word.word
+
+        else:
+            transcript += "{}:: {} !!!".format(tag,speakerWords)  # later parse out the speakers when printing transcript, :: is unlikely anywhere else
+            tag=word.speaker_tag
+            speakerWords=""+word.word
+        
+        timestamps.append(float(str(word.start_time.seconds) + '.' + str(word.start_time.nanos)))
+
+    transcript += "{}:: {}".format(tag, speakerWords)
+    print(timestamps)
+    text = transcript.split('!!!')
+    print(text)
+    return text, timestamps
+
+    '''
+  for word in words_info:
+        #print("getting word")
+        if word.speaker_tag==tag:
+            speakerWords=speakerWords+" "+word.word
 
         else:
             print("speaker {}: {}".format(tag,speaker))
             tag=word.speaker_tag
-            speaker=""+word.word
-        print(
-            u"Start time: {} seconds {} nanos".format(
-                word.start_time.seconds, word.start_time.nanos
-            )
-        )
+            speakerWords=""+word.word
+
+        timestamps.append(float(str(word.start_time.seconds) + '.' + str(word.start_time.nanos)))
+
     print("Speaker {}: {}".format(tag, speaker))
-
-    '''
-    for result in response.results:
-        alternative = result.alternatives[0]
-        print(u"Transcript: {}".format(alternative.transcript))
-        # Print the speaker_tag of each word
-        for word in alternative.words:
-            print(u"Word: {}".format(word.word))
-            print(u"Speaker tag: {}".format(word.speaker_tag))
-
-
-        print("results:")
-        print('Transcript: {}'.format(result.alternatives[0].transcript))
-        return 'Transcript: {}'.format(result.alternatives[0].transcript)
+    print(timestamps)
         '''

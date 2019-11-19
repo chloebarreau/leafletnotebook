@@ -9,8 +9,6 @@ class UploadImage extends React.Component {
     this.state = {
       imageURL: '',
       imageText: '',
-      /*test audio*/
-
       uploaded: "false",
     };
 

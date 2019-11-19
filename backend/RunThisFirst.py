@@ -40,11 +40,11 @@ def fileUpload():
         session['uploadFilePath']=destination
 
         if filename.lower().endswith(AUDIO_EXTENSIONS):
-            text = speechToText.getText(destination)
+            text, timestamps = speechToText.getText(destination)
+            return jsonify(filename=filename, destination=destination, text=text, timestamps=timestamps)
         else:
             text = computerVision.getText(destination)
-
-        return jsonify(filename=filename, destination=destination, text=text)
+            return jsonify(filename=filename, destination=destination, text=text)
     else:
         return "getting"
 

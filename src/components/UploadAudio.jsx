@@ -8,7 +8,8 @@ class Main extends React.Component {
 
     this.state = {
       audioURL: '',
-      audioText: '',
+      audioText: [],
+      timestamps: [],
       uploaded: "false",
     };
 
@@ -41,14 +42,18 @@ class Main extends React.Component {
         this.setState({
           audioURL: "http://localhost:5000/static/" + body.filename,
           audioText: body.text,
+          timestamps: body.timestamps
         });
-        console.log("Video transcript:" + this.state.audioText); 
+        console.log("Video transcript: " + this.state.audioText);
+        console.log("Timestamps: " + this.state.timestamps);
       });
     });
   }
 
   render() {
+    var indexNumber = 0;
     return (
+      <div className="transcript">
       <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
         <div>
           <label for="hidden-new-audio-file" class="ui button">
@@ -61,8 +66,20 @@ class Main extends React.Component {
           </input>
         </div>
         <br />
-        Transcript: {this.state.audioText}
-{/*}
+        <ul>
+        {this.state.audioText.map((item) => {
+          console.log(indexNumber)
+          if (item.includes("2::"))
+            return (<li className="speaker-red">
+              {item.substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++}>{word + " "}</span>)}
+              </li>)
+          else
+            return (<li className="speaker-yellow">
+              {item.substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++}>{word + " "}</span>)}
+              </li>)
+        })}
+        </ul>
+        {/*}
         <ul>
           {Object.keys(this.state.imageText).map(key =>
             <li>{key} - {this.state.imageText[key]}</li>
@@ -72,6 +89,7 @@ class Main extends React.Component {
         </ul>
         */}
       </form>
+      </div>
     );
   }
 }

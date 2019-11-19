@@ -83,31 +83,30 @@ export default class News extends React.Component {
   render() {
     return (
       <div>
-        <Grid>
+        <Grid padded>
           <Grid.Row>
             <Grid.Column>
               <Header as='h3'>Related News</Header>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column>
-              <Input action={{
+            <Grid.Column style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+            <div style={{width: "58%"}}>
+              <Input fluid action={{
                 icon: "search icon",
                 onClick: (event) => this.handleSearchClick(event)
               }}
                 onChange={(event, data) => this.handleSearchChange(event, data)}
                 placeholder='Search' />
-            </Grid.Column>
-
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Dropdown
+                </div>
+                <div style={{width: "38%"}}>
+              <Dropdown fluid
                 placeholder='Sort by'
                 selection
                 options={sortOptions}
                 onChange={(event, data) => this.handleOrderClick(event, data)}
               />
+              </div>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

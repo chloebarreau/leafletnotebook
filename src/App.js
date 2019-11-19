@@ -4,12 +4,11 @@ import './App.css';
 import TextEditor from './components/TextEditor';
 import Tools from './components/Tools';
 import { Grid, Icon, Menu, Segment, Sidebar, Modal, Button,} from 'semantic-ui-react'
-import Upload from './components/Upload'
 
 function App() {
 
   return (
-    <div> 
+    <div>
       <Tools />
     </div>
   );

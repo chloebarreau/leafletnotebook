@@ -1,3 +1,70 @@
+:root {
+  --main-green: #4CCCAC;
+  --medium-green: #c4efe5;
+  --light-green: #f3fcf9;
+  --light-gray: #a6a6a6;
+}
+
+/******Text/Background******/
+.green-background { /* set right sidebar background color */
+  width: 31%;  /* 5/16 columns */
+  height: 100%;
+  top: 0;
+  padding: 24px 8px 16px 16px;
+  background-color: var(--light-green) !important;
+  position: fixed;
+}
+.large-text {
+  font-family: "Avenir Next";
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--main-green);
+}
+.notes ul {
+  padding: 0 16px;
+  list-style-type: none;
+}
+.timestamp {
+  font-size: 12px;
+  color: var(--light-gray);
+}
+.note {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+
+
+/******Buttons******/
+.green-btn {
+  background-color: var(--main-green) !important;
+  color: white !important;
+}
+.light-green-btn {
+  background-color: var(--medium-green) !important;  /* delete and leave as gray????????? */
+}
+.right-btn {
+  margin-top: -4px;
+}
+
+/******Audio******/
+audio {
+  color: #4CCCAC
+} 
+
+figure {
+  position: fixed;
+  bottom: 0;
+}
+
+/******Segments******/
+.no-border {
+  border: 0 none !important;
+  /*box-shadow: none !important;  COMMENTED OUT TO SEE EDGES WHILE formatting, UNCOMMENT FOR FINAL DEMO/LOOK!!!!!!!!!!!!!!*/
+}
+.bitOfPadding {
+  margin: 2px;
+}
 .ui.menu {
   border-bottom: 0 none !important;
   box-shadow: none;

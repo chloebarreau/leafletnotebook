@@ -1,22 +1,16 @@
 import React from 'react';
-import Upload from './Upload'
+import UploadNotes from './UploadNotes'
 import UploadAudio from './UploadAudio'
 import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
-import { Grid, Menu, Header, Segment, Modal, Tab, Button } from 'semantic-ui-react'
-
-const  panes = [
-  { menuItem: 'Tab 1', render: () => <Upload onDataFetched={this.handleResultChange}/>},
-  { menuItem: 'Tab 2', render: () => <QuoteBank /> },
-  { menuItem: 'Tab 3', render: () => <Segment style={{ overflow: 'auto', maxHeight: '50vh' }}><News /></Segment>},
-]
+import { Grid, Menu, Header, Segment, Modal, Tab, Button, Divider } from 'semantic-ui-react'
 
 class Tools extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sampleText: "Upload your audio file and an image of your notes",
+      title: "Upload your audio file and an image of your notes",
       uploaded: "false",
       quotes: ""
     };
@@ -27,7 +21,7 @@ class Tools extends React.Component {
 
   handleResultChange(data) {
     this.setState({
-      sampleText: data
+      title: data
     });
   }
 
@@ -38,41 +32,38 @@ class Tools extends React.Component {
   }
 
   handleHighlightClick() {
-    this.setState({ quotes: "There are certain things that jump out to me about these incidents."}, function () {
+    this.setState({ quotes: "There are certain things that jump out to me about these incidents." }, function () {
       console.log("added");
     });
   }
 
   render() {
-    var text = this.state.sampleText; // JSON.parse(this.state.sampleText);
-
     return (
       <div>
-
-      <Menu secondary attached='top'>
-        <Menu.Item>
-          🌱LEAFLET NOTEBOOK
-        </Menu.Item>  
-        <Menu.Item position='right'>
-        <Modal style={{alignItems: 'center', margin: 'auto',}} trigger={<Button><i class="upload icon"></i>Upload</Button>}>
-          <Header icon='upload' content='Upload Audio and Notes' />
-            <Modal.Description>
-                <button type="submit" class="ui blue button" onClick={this.handleUpload}>
-                  Transcribe audio
-                </button>
-                <Upload onDataFetched={this.handleResultChange}/>
-            </Modal.Description>
-          </Modal>
-        </Menu.Item>      
-      </Menu>    
-
         <Grid columns={2} style={{ margin: '10px' }}>
-          <Grid.Row stretched>
+          <Grid.Row>
             <Grid.Column width={11}>
-              <Segment style={{ overflow: 'auto', maxHeight: '90vh' }}>
-                <h3>{this.state.sampleText}</h3>
+              <Menu secondary>
+                <Menu.Item>
+                  <span className="large-text">Leaflet</span>
+                </Menu.Item>
+                <Menu.Item position='right'>
+                  <Modal style={{ alignItems: 'center', margin: 'auto', }} trigger={<Button className="light-green-btn">Upload</Button>}>
+                    <Header icon='upload' content='Upload Audio and Notes' />
+                    <Modal.Description>
+                      <button type="submit" class="ui blue button" onClick={this.handleUpload}>
+                        Transcribe audio
+                </button>
+                      <UploadNotes onDataFetched={this.handleResultChange} />
+                    </Modal.Description>
+                  </Modal>
+                </Menu.Item>
+              </Menu>
+
+              <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
+                <h2>{this.state.title}</h2>
                 <UploadAudio />
-            {/* FOR DEMO PURPOSES!!!
+                {/* FOR DEMO PURPOSES!!!
             <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload}>
             <i class="upload icon"></i> Upload and Transcribe
             </button>
@@ -89,21 +80,38 @@ class Tools extends React.Component {
     <p>SHAPIRO: On an issue that is related but separate, I want to ask about your very public criticism of the current CEO of Disney for his compensation package. You have no formal role with the Disney Company. For people who have not been following this very public back-and-forth, what is the nut of your critique here?</p>
     <p>DISNEY: The nut of my critique is that I know that company pretty well? Obviously, it's a big, sophisticated company. And it's grown a lot since I, you know, worked sort of in a way with it. When you're in what is setting up to be the largest media and entertainment conglomerate on the planet in the history of the world...</p>   </div>} 
     */}
-    </Segment>
+              </Segment>
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
+
             <Grid.Column width={5}>
-
-              <Tab menu={{ secondary: true, pointing: true }} 
-              panes = {[
-                { menuItem: 'Notes', render: () => <Segment></Segment>},
-                { menuItem: 'Quotebank', render: () => <QuoteBank /> },
-                { menuItem: 'News', render: () => <Segment style={{ overflow: 'auto', maxHeight: '70vh' }}><News /></Segment>},
-              ]}
-              />
-
+              <span className="green-background">
+                <div className="smallMargin">
+                  <Tab menu={{ secondary: true, pointing: true }}
+                    panes={[
+                      {
+                        menuItem: 'Notes', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}>
+                          <UploadNotes onDataFetched={this.handleResultChange} />
+                        </div>
+                      },
+                      { menuItem: 'Quote Bank', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><QuoteBank /></div> },
+                      { menuItem: 'News', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><News /></div> },
+                    ]}
+                  />
+                </div>
+              </span>
             </Grid.Column>
+
           </Grid.Row>
+          <figure>
+              <figcaption>Listen to the T-Rex:</figcaption>
+              <audio 
+                  controls
+                  src="../S2_EP2.mp3">
+                      Your browser does not support the
+                      <code>audio</code> element.
+              </audio>
+          </figure>
         </Grid>
       </div>
     );

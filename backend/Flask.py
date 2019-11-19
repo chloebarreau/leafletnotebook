@@ -10,12 +10,13 @@ import logging
 
 print(sys.path)
 import computerVision
+import speechToText # added
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('HELLO WORLD')
 
 UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__))
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+AUDIO_EXTENSIONS = tuple(['flac', 'mp3', 'mp4'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -38,7 +39,11 @@ def fileUpload():
 
         session['uploadFilePath']=destination
 
-        text = computerVision.getText(destination)
+        if filename.lower().endswith(AUDIO_EXTENSIONS):
+            text = speechToText.getText(destination)
+        else:
+            text = computerVision.getText(destination)
+
         return jsonify(filename=filename, destination=destination, text=text)
     else:
         return "getting"

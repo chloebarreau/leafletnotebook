@@ -31,7 +31,8 @@ def getText(file_name):
         encoding=enums.RecognitionConfig.AudioEncoding.FLAC,
         language_code='en-US',
         enable_speaker_diarization=True,
-        enable_automatic_punctuation=True)
+        enable_automatic_punctuation=True,
+        enable_word_time_offsets=True)
 
 
     # Detects speech in the audio fileg
@@ -44,15 +45,21 @@ def getText(file_name):
     tag=1
     speaker=""
 
-    for word_info in words_info:
+    for word in words_info:
         #print("getting word")
-        if word_info.speaker_tag==tag:
-            speaker=speaker+" "+word_info.word
+        if word.speaker_tag==tag:
+            speaker=speaker+" "+word.word
 
         else:
             print("speaker {}: {}".format(tag,speaker))
-            tag=word_info.speaker_tag
-            speaker=""+word_info.word
+            tag=word.speaker_tag
+            speaker=""+word.word
+        print(
+            u"Start time: {} seconds {} nanos".format(
+                word.start_time.seconds, word.start_time.nanos
+            )
+        )
+    print("Speaker {}: {}".format(tag, speaker))
 
     '''
     for result in response.results:

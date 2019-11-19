@@ -1,6 +1,6 @@
 // Main code from https://medium.com/excited-developers/file-upload-with-react-flask-e115e6f2bf99
 import React from 'react';
-import { Button, Input, Icon, Menu, Segment, Header, Grid } from 'semantic-ui-react'
+import { Button, Input, Icon, Menu, Segment, Header, Grid, Popup } from 'semantic-ui-react'
 
 class UploadImage extends React.Component {
   constructor(props) {
@@ -59,8 +59,14 @@ class UploadImage extends React.Component {
         <Grid.Row>
           <Grid.Column>
             <form onSubmit={this.handleUploadImage} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
-              <Header as='h3'>Notes</Header>
+
               <div>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                <Header as='h3'>Notes</Header>
+                <div className="right-btn">
+                <Popup content='This links timestamps in your notes to the audio' wide position='left center' trigger={<Button circular size='mini' icon='question' />} />
+                </div>
+              </div>
 
                 <label for="hidden-new-file" className="ui button">
                   Upload Notes

@@ -6,7 +6,8 @@ export default class News extends React.Component {
     super(props);
     this.state = {
       count: 0,
-      quotes: []
+      quotes: [],
+      uploaded: "false",
     };
     this.addQuote = this.addQuote.bind(this)
   }

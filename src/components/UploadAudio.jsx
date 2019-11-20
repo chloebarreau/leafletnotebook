@@ -14,9 +14,29 @@ class Main extends React.Component {
     };
     this.handleUploadAudio = this.handleUploadAudio.bind(this);
     this.playWord = this.playWord.bind(this);
+
+    this.editTranscript= this.editTranscript.bind(this);
   }
 
   fileInputRef = React.createRef();
+
+
+  editTranscript(e, index) {
+    let tmpArr = this.state.audioText;
+  
+    if (index % 2 === 1) { // second speaker
+      tmpArr[index] = "2:: " + e.target.textContent;
+      console.log(e.target.textContent + " index: " + index)
+    }
+    else {
+      tmpArr[index] = "1:: " + e.target.textContent;
+    }
+    this.setState({ audioText: tmpArr})
+    
+  }
+
+
+
 
   handleUploadAudio(ev) {
     ev.preventDefault();
@@ -62,9 +82,6 @@ class Main extends React.Component {
   render() {
     var indexNumber = -1;
 
-    var aud = document.getElementById("auioPlayer");
-
-
     return (
       <div className="transcript">
         <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
@@ -89,17 +106,18 @@ class Main extends React.Component {
             }
             <br />
             <ul>
-              {this.state.audioText.map((item) => {
-                console.log(indexNumber)
-                if (item.includes("2::") && item.substring(4, item.length) != "")
-                  return (<li className="speaker-red">
-                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
+            <div>
+              {this.state.audioText.map((item, index) => {
+                if ((item.includes("2::")) && item.substring(4, item.length) != "")
+                  return (<li key={index} className="speaker-red" contentEditable="true" suppressContentEditableWarning="true" onBlur={(e) => this.editTranscript(e, index)}>
+                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
                   </li>)
                 else
-                  return (<li className="speaker-yellow">
-                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
+                  return (<li key={index} className="speaker-yellow" contentEditable="true" onBlur={(e) => this.editTranscript(e, index)}>
+                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
                   </li>)
               })}
+              </div>
             </ul>
             {/*}
         <ul>

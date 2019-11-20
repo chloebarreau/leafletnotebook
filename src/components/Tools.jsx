@@ -4,7 +4,7 @@ import UploadAudio from './UploadAudio'
 import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
-import { Grid, Menu, Header, Segment, Modal, Tab, Button, Divider } from 'semantic-ui-react'
+import { Grid, Menu, Header, Segment, Modal, Tab, Button, Icon } from 'semantic-ui-react'
 
 class Tools extends React.Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class Tools extends React.Component {
   }
 
   handleResultChange(data) {
+    data = data.substring(0, data.indexOf(".flac"));
     this.setState({
       title: data
     });
@@ -59,10 +60,22 @@ class Tools extends React.Component {
                   </Modal>
                 </Menu.Item>
               </Menu>
+              
 
+
+              <UploadAudio onDataFetched={this.handleResultChange} title={this.state.title}/>
+{/*}
               <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
-                <h2>{this.state.title}</h2>
-                <UploadAudio />
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                  <h2>{this.state.title}</h2>
+                  <div className="right-btn">
+                    <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+                  </div>
+                </div>
+                <UploadAudio onDataFetched={this.handleResultChange} />
+              </Segment>
+
+    */}
                 {/* FOR DEMO PURPOSES!!!
             <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload}>
             <i class="upload icon"></i> Upload and Transcribe
@@ -80,7 +93,7 @@ class Tools extends React.Component {
     <p>SHAPIRO: On an issue that is related but separate, I want to ask about your very public criticism of the current CEO of Disney for his compensation package. You have no formal role with the Disney Company. For people who have not been following this very public back-and-forth, what is the nut of your critique here?</p>
     <p>DISNEY: The nut of my critique is that I know that company pretty well? Obviously, it's a big, sophisticated company. And it's grown a lot since I, you know, worked sort of in a way with it. When you're in what is setting up to be the largest media and entertainment conglomerate on the planet in the history of the world...</p>   </div>} 
     */}
-              </Segment>
+              
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
 
@@ -103,6 +116,7 @@ class Tools extends React.Component {
             </Grid.Column>
 
           </Grid.Row>
+          {/*}
           <figure>
               <figcaption>Listen to the T-Rex:</figcaption>
               <audio 
@@ -112,6 +126,7 @@ class Tools extends React.Component {
                       <code>audio</code> element.
               </audio>
           </figure>
+                  */}
         </Grid>
       </div>
     );

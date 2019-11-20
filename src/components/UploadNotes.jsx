@@ -12,21 +12,10 @@ class UploadImage extends React.Component {
       uploaded: "false",
     };
 
-
-    this.handleUpload = this.handleUpload.bind(this);
     this.handleUploadImage = this.handleUploadImage.bind(this);
   }
 
   fileInputRef = React.createRef();
-
-
-  handleUpload() {
-    this.setState({
-      uploaded: "true"
-    });
-    console.log("onchenged")
-  }
-
 
   handleUploadImage(ev) {
     ev.preventDefault();

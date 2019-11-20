@@ -12,21 +12,31 @@ class Main extends React.Component {
       timestamps: [],
       uploaded: "false",
     };
-
-
-    this.handleUpload = this.handleUpload.bind(this);
     this.handleUploadAudio = this.handleUploadAudio.bind(this);
     this.playWord = this.playWord.bind(this);
+
+    this.editTranscript= this.editTranscript.bind(this);
   }
 
   fileInputRef = React.createRef();
 
-  handleUpload() {
-    this.setState({
-      uploaded: "true"
-    });
-    console.log("onchenged")
+
+  editTranscript(e, index) {
+    let tmpArr = this.state.audioText;
+  
+    if (index % 2 === 1) { // second speaker
+      tmpArr[index] = "2:: " + e.target.textContent;
+      console.log(e.target.textContent + " index: " + index)
+    }
+    else {
+      tmpArr[index] = "1:: " + e.target.textContent;
+    }
+    this.setState({ audioText: tmpArr})
+    
   }
+
+
+
 
   handleUploadAudio(ev) {
     ev.preventDefault();
@@ -43,12 +53,25 @@ class Main extends React.Component {
         this.setState({
           audioURL: "http://localhost:5000/static/" + body.filename,
           audioText: body.text,
-          timestamps: body.timestamps
+          timestamps: body.timestamps,
+          uploaded: "true"
         });
+        this.props.onDataFetched(body.filename); {/* send audio's filename to Tools component */ }
+
         console.log("Video transcript: " + this.state.audioText);
         console.log("Timestamps: " + this.state.timestamps);
       });
     });
+  }
+
+  downloadTxtFile = () => {
+    const element = document.createElement("a");
+    const file = new Blob(this.state.audioText.map((item) => (item + "\n")), { type: 'text/plain' });
+    console.log(this.state.quotes)
+    element.href = URL.createObjectURL(file);
+    element.download = "transcript.txt";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
   }
 
   playWord(event) {
@@ -57,35 +80,46 @@ class Main extends React.Component {
   }
 
   render() {
-    var indexNumber = 0;
+    var indexNumber = -1;
+
     return (
       <div className="transcript">
-        <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
-          <div>
-            <label for="hidden-new-audio-file" class="ui button">
-              Upload Audio
-          </label>
-            <input type="file" id="hidden-new-audio-file"
-              ref={(ref) => { this.uploadInput = ref; }}
-              onChange={this.handleUploadAudio}
-              style={{ display: "none" }}>
-            </input>
+        <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+            <h2>{this.props.title}</h2>
+            <div className="right-btn">
+              <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+            </div>
           </div>
-          <br />
-          <ul>
-            {this.state.audioText.map((item) => {
-              console.log(indexNumber)
-              if (item.includes("2::") && item.substring(4, item.length) != "")
-                return (<li className="speaker-red">
-                  {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
-                </li>)
-              else
-                return (<li className="speaker-yellow">
-                  {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
-                </li>)
-            })}
-          </ul>
-          {/*}
+          <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
+            {this.state.uploaded == "false" && <div>
+
+              <label for="hidden-new-audio-file" class="ui button">
+                Upload Audio
+          </label>
+              <input type="file" id="hidden-new-audio-file"
+                ref={(ref) => { this.uploadInput = ref; }}
+                onChange={this.handleUploadAudio}
+                style={{ display: "none" }}>
+              </input>
+            </div>
+            }
+            <br />
+            <ul>
+            <div>
+              {this.state.audioText.map((item, index) => {
+                if ((item.includes("2::")) && item.substring(4, item.length) != "")
+                  return (<li key={index} className="speaker-red" contentEditable="true" suppressContentEditableWarning="true" onBlur={(e) => this.editTranscript(e, index)}>
+                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
+                  </li>)
+                else
+                  return (<li key={index} className="speaker-yellow" contentEditable="true" onBlur={(e) => this.editTranscript(e, index)}>
+                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
+                  </li>)
+              })}
+              </div>
+            </ul>
+            {/*}
         <ul>
           {Object.keys(this.state.imageText).map(key =>
             <li>{key} - {this.state.imageText[key]}</li>
@@ -94,12 +128,13 @@ class Main extends React.Component {
 
         </ul>
         */}
-        </form>
-        <audio controls
-          src={this.state.audioURL}>
-          Your browser does not support the
-                      <code>audio</code> element.
+          </form>
+          <audio id="audio-player" controls
+            src={this.state.audioURL}>
+            Your browser does not support the
+              <code>audio</code> element.
               </audio>
+        </Segment>
       </div>
     );
   }

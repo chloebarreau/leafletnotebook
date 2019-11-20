@@ -45,6 +45,8 @@ class Main extends React.Component {
           audioText: body.text,
           timestamps: body.timestamps
         });
+        //this.props.onDataFetched(this.state.body.filename); {/* send audio's filename to Tools component */ }
+
         console.log("Video transcript: " + this.state.audioText);
         console.log("Timestamps: " + this.state.timestamps);
       });
@@ -57,7 +59,11 @@ class Main extends React.Component {
   }
 
   render() {
-    var indexNumber = 0;
+    var indexNumber = -1;
+
+    var aud = document.getElementById("auioPlayer");
+
+
     return (
       <div className="transcript">
         <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
@@ -81,7 +87,7 @@ class Main extends React.Component {
                 </li>)
               else
                 return (<li className="speaker-yellow">
-                  {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
+                  {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}{console.log(indexNumber + " " + word)}</span>)}
                 </li>)
             })}
           </ul>
@@ -95,10 +101,10 @@ class Main extends React.Component {
         </ul>
         */}
         </form>
-        <audio controls
+        <audio id="audio-player" controls
           src={this.state.audioURL}>
           Your browser does not support the
-                      <code>audio</code> element.
+              <code>audio</code> element.
               </audio>
       </div>
     );

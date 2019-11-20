@@ -31,6 +31,7 @@ def getText(file_name):
         encoding=enums.RecognitionConfig.AudioEncoding.FLAC,
         language_code='en-US',
         enable_speaker_diarization=True,
+        diarization_speaker_count=2,
         enable_automatic_punctuation=True,
         enable_word_time_offsets=True)
 
@@ -42,25 +43,30 @@ def getText(file_name):
 
     words_info = result.alternatives[0].words
 
-    tag=1
+    tag=2
     speakerWords=""
     timestamps=[]
     transcript=""
     text=[]
 
     for word in words_info:
-        #print("getting word")
         if word.speaker_tag==tag:
             speakerWords=speakerWords+" "+word.word
 
         else:
-            transcript += "{}:: {} !!!".format(tag,speakerWords)  # later parse out the speakers when printing transcript, :: is unlikely anywhere else
+            if tag == 1:
+                transcript += "{}:: {} !!!".format(2,speakerWords)  # reverse/correct the speaker tags from Google
+            else:
+                transcript += "{}:: {} !!!".format(1,speakerWords)  # later parse out the speakers when printing transcript, :: is unlikely anywhere else
             tag=word.speaker_tag
             speakerWords=""+word.word
         
         timestamps.append(float(str(word.start_time.seconds) + '.' + str(word.start_time.nanos)))
 
-    transcript += "{}:: {}".format(tag, speakerWords)
+    if tag == 1:
+        transcript += "{}:: {}".format(2,speakerWords)
+    else:
+        transcript += "{}:: {}".format(1,speakerWords) 
     print(timestamps)
     text = transcript.split('!!!')
     print(text)

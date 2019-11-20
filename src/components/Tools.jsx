@@ -4,7 +4,7 @@ import UploadAudio from './UploadAudio'
 import TextEditor from './TextEditor'
 import News from './News';
 import QuoteBank from './QuoteBank';
-import { Grid, Menu, Header, Segment, Modal, Tab, Button, Divider } from 'semantic-ui-react'
+import { Grid, Menu, Header, Segment, Modal, Tab, Button, Icon } from 'semantic-ui-react'
 
 class Tools extends React.Component {
   constructor(props) {
@@ -60,9 +60,17 @@ class Tools extends React.Component {
                 </Menu.Item>
               </Menu>
 
+
               <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
-                <h2>{this.state.title}</h2>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                  <h2>{this.state.title}</h2>
+                  <div className="right-btn">
+                    <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+                  </div>
+                </div>
                 <UploadAudio />
+
+
                 {/* FOR DEMO PURPOSES!!!
             <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload}>
             <i class="upload icon"></i> Upload and Transcribe
@@ -103,6 +111,7 @@ class Tools extends React.Component {
             </Grid.Column>
 
           </Grid.Row>
+          {/*}
           <figure>
               <figcaption>Listen to the T-Rex:</figcaption>
               <audio 
@@ -112,6 +121,7 @@ class Tools extends React.Component {
                       <code>audio</code> element.
               </audio>
           </figure>
+                  */}
         </Grid>
       </div>
     );

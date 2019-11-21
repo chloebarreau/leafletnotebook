@@ -1,6 +1,7 @@
 // Main code from https://medium.com/excited-developers/file-upload-with-react-flask-e115e6f2bf99
 import React from 'react';
 import { Button, Input, Icon, Menu, Segment, Header, Grid, Popup } from 'semantic-ui-react'
+import { HashLink as Link } from 'react-router-hash-link';
 
 class UploadImage extends React.Component {
   constructor(props) {
@@ -9,13 +10,20 @@ class UploadImage extends React.Component {
     this.state = {
       imageURL: '',
       imageText: '',
-      uploaded: "false",
+      uploaded: "true",
     };
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   fileInputRef = React.createRef();
+
+  handleClick() {
+    this.setState({
+      uploaded: "true"
+    });
+  }
 
   handleUploadImage(ev) {
     ev.preventDefault();
@@ -45,46 +53,51 @@ class UploadImage extends React.Component {
       <Grid padded>
         <Grid.Row>
           <Grid.Column>
-            <form onSubmit={this.handleUploadImage} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
+            <form onSubmit={this.handleClick} encType="multipart/form-data"> {/* !!!!!!!!! change back to ={this.handleUploadImage} when not in demo mode!!!*/}
 
               <div>
               <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                 <Header as='h3'>Notes</Header>
+                
+                <Link to="/#tag">Your link text</Link>
                 <div className="right-btn">
                 <Popup content='This links timestamps in your notes to the audio' wide position='left center' trigger={<Button circular size='mini' icon='question' />} />
                 </div>
               </div>
 
+            <Button onClick={this.handleClick}>Upload Notes</Button>
+{/*} REAL UPLOAD BUTTON
                 <label for="hidden-new-file" className="ui button">
                   Upload Notes
           </label>
                 <input type="file" id="hidden-new-file"
                   ref={(ref) => { this.uploadInput = ref; }}
-                  onChange={this.handleUploadImage}
+                  onChange={this.handleUploadImage}  
                   style={{ display: "none" }}>
                 </input>
+    */}
 
               </div>
               <br />
-              {/*}
+             
         {this.state.uploaded == "true" &&
-          <div>
+        <Segment className="notes">
             <ul>
-              <li>0:28 - "my class needs some really good traitors these days"</li>
-              <li>1:09 - "create the best and fairest country"</li>
-              <li>2:13 - "want to live in a world that doesn't need philanthropy"</li>
-              <li>2:41 - "prefer that public schools function..."</li>
+              <li><Link to={"/#tag"}><div className="timestamp">0:28</div></Link> - <div className="note">"my class needs some really good traitors these days"</div></li>
+              <li><div className="timestamp">1:09</div> - <div className="note">"create the best and fairest country"</div></li>
+              <li><div className="timestamp">2:13</div> - <div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
+              <li><div className="timestamp">2:41</div> - <div className="note">"prefer that public schools function..."</div></li>
             </ul>
-          </div>
+          </Segment>
         }
-      */}
+      {/*}
               {this.state.uploaded == "true" &&
                 <Segment className="notes">
                   <ul>
                     {Object.keys(this.state.imageText).map(key => {
                       if (key !== "title")
                         return (
-                          <li>
+                          <li><Link to={"/#" + {key}}> ///edited!!!
                             <div className="timestamp">
                               {key}
                             </div>
@@ -99,7 +112,7 @@ class UploadImage extends React.Component {
                   </ul>
                 </Segment>
               }
-
+            */}
               {/*}.map((items, index) => {
           return (
             <ul key={index}>

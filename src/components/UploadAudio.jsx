@@ -8,7 +8,7 @@ class Main extends React.Component {
 
     this.state = {
       audioURL: '',
-      audioText: [],
+      audioText: ['1::  Okay, we can just I definitely do think ', "2:: that my time here. I've definitely felt like my disability has been more of a concern in the end, you know that in a positive way. Like I feel more looked after then I ", "1:: have an any educational institution. That's wonderful. That's crazy. And even like like this is such a good dumb example, but like on like the row every house is accessible at least the first floor. Oh, wow, like that's not something that you will find. ", '2:: Our ', "1:: universities. Yeah, and so the idea like even like if I don't ", "2:: want to go like I'd say, I don't want to go to a party like I don't know but the idea ", "1:: that I it's it's a choice I get to make whether I ", "2:: want to go or not, right? That's a really large. Yeah privilege. I don't I wouldn't have gotten really anywhere ", "1:: else. Yeah, like that's awesome. Yeah, I didn't even realize that that's right. Like I because I was driving to the like the dumb president reception. That was such a dumb event. Oh, yeah, you guys had to go to the"],
       timestamps: [],
       uploaded: "false",
     };
@@ -22,17 +22,17 @@ class Main extends React.Component {
 
 
   editTranscript(e, index) {
+    console.log(e.target.textContent);
     let tmpArr = this.state.audioText;
   
     if (index % 2 === 1) { // second speaker
       tmpArr[index] = "2:: " + e.target.textContent;
-      console.log(e.target.textContent + " index: " + index)
     }
     else {
       tmpArr[index] = "1:: " + e.target.textContent;
     }
     this.setState({ audioText: tmpArr})
-    
+    console.log("after setstate: " + this.state.audioText)
   }
 
 
@@ -108,17 +108,19 @@ class Main extends React.Component {
             <ul>
             <div>
               {this.state.audioText.map((item, index) => {
-                if ((item.includes("2::")) && item.substring(4, item.length) != "")
+                if ((item.includes("2:: ")) && item.substring(4, item.length) != "")
                   return (<li key={index} className="speaker-red" contentEditable="true" suppressContentEditableWarning="true" onBlur={(e) => this.editTranscript(e, index)}>
-                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
+                    {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{" " + word}</span>)}
                   </li>)
                 else
                   return (<li key={index} className="speaker-yellow" contentEditable="true" onBlur={(e) => this.editTranscript(e, index)}>
                     {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
-                  </li>)
+              </li>)
               })}
+              <div id="tag">TEST LINK HERE</div>
               </div>
             </ul>
+            {console.log("AFTER MAP " + this.state.audioText)}
             {/*}
         <ul>
           {Object.keys(this.state.imageText).map(key =>

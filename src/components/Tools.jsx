@@ -12,11 +12,55 @@ class Tools extends React.Component {
     this.state = {
       title: "Upload your audio file and an image of your notes",
       uploaded: "false",
-      quotes: ""
+      quotes: "",
+
+      audioURL: '', // added
+      audioText: [], // DEMO: '1::  Okay, we can just I definitely do think ', "2:: that my time here. I've definitely felt like my disability has been more of a concern in the end, you know that in a positive way. Like I feel more looked after then I ", "1:: have an any educational institution. That's wonderful. That's crazy. And even like like this is such a good dumb example, but like on like the row every house is accessible at least the first floor. Oh, wow, like that's not something that you will find. ", '2:: Our ', "1:: universities. Yeah, and so the idea like even like if I don't ", "2:: want to go like I'd say, I don't want to go to a party like I don't know but the idea ", "1:: that I it's it's a choice I get to make whether I ", "2:: want to go or not, right? That's a really large. Yeah privilege. I don't I wouldn't have gotten really anywhere ", "1:: else. Yeah, like that's awesome. Yeah, I didn't even realize that that's right. Like I because I was driving to the like the dumb president reception. That was such a dumb event. Oh, yeah, you guys had to go to the
+      timestamps: [],
+      uploaded: "false",
+
+
     };
     this.handleResultChange = this.handleResultChange.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleHighlightClick = this.handleHighlightClick.bind(this);
+    this.setRef = this.setRef.bind(this);
+  }
+  componentDidMount() {
+    // Calling a function on the Child DOM element
+    this.uploadInput.focus();
+}
+
+
+  handleUploadAudio(ev) { //added
+    ev.preventDefault();
+
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+
+    fetch('http://localhost:5000/upload', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {
+      response.json().then((body) => {
+        console.log(body.text);
+        this.setState({
+          audioURL: "http://localhost:5000/static/" + body.filename,
+          audioText: body.text,
+          timestamps: body.timestamps,
+          uploaded: "true"
+        });
+
+        console.log("Video transcript: " + this.state.audioText);
+        console.log("Timestamps: " + this.state.timestamps);
+      });
+    });
+  }
+
+
+
+  setRef(ref) {
+    this.uploadInput = ref;
   }
 
   handleResultChange(data) {
@@ -63,7 +107,16 @@ class Tools extends React.Component {
               
 
 
-              <UploadAudio onDataFetched={this.handleResultChange} title={this.state.title}/>
+              <UploadAudio 
+                onDataFetched={this.handleResultChange} 
+                title={this.state.title} 
+                setRef={this.setRef}
+                handleUploadAudio={this.handleUploadAudio.bind(this)}
+                audioURL={this.state.audioURL}
+                audioText={this.state.audioText}
+                timestamps={this.state.timestamps}
+                uploaded={this.state.uploaded}
+                />
 {/*}
               <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>

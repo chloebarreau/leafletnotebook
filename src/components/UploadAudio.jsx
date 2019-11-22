@@ -9,13 +9,11 @@ class Main extends React.Component {
     this.state = {
     };
     this.playWord = this.playWord.bind(this);
-
-    this.editTranscript= this.editTranscript.bind(this);
   }
 
   fileInputRef = React.createRef();
 
-
+/*} not working 
   editTranscript(e, index) {
     console.log(e.target.textContent);
     let tmpArr = this.props.audioText;
@@ -29,6 +27,7 @@ class Main extends React.Component {
     this.setState({ audioText: tmpArr})
     console.log("after setstate: " + this.props.audioText)
   }
+*/
 
 
   downloadTxtFile = () => {
@@ -77,15 +76,14 @@ class Main extends React.Component {
             <div>
               {this.props.audioText.map((item, index) => {
                 if ((item.includes("2:: ")) && item.substring(4, item.length) != "")
-                  return (<li key={index} className="speaker-red" contentEditable="true" suppressContentEditableWarning="true" onBlur={(e) => this.editTranscript(e, index)}>
+                  return (<li key={index} className="speaker-red">
                     {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{" " + word}</span>)}
                   </li>)
                 else
-                  return (<li key={index} className="speaker-yellow" contentEditable="true" onBlur={(e) => this.editTranscript(e, index)}>
+                  return (<li key={index} className="speaker-yellow">
                     {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
               </li>)
               })}
-              <div id="tag">TEST LINK HERE</div>
               </div>
             </ul>
             {console.log("AFTER MAP " + this.props.audioText)}

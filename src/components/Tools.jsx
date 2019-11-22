@@ -3,6 +3,7 @@ import UploadNotes from './UploadNotes'
 import UploadAudio from './UploadAudio'
 import TextEditor from './TextEditor'
 import News from './News';
+
 import QuoteBank from './QuoteBank';
 import { Grid, Menu, Header, Segment, Modal, Tab, Button, Icon } from 'semantic-ui-react'
 
@@ -10,7 +11,7 @@ class Tools extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Upload your audio file and an image of your notes",
+      title: "",
       uploaded: "false",
       quotes: "",
 
@@ -19,6 +20,9 @@ class Tools extends React.Component {
       timestamps: [],
       uploaded: "false",
 
+      imageURL: '',
+      imageText: '',
+      uploadedNotes: "true",
 
     };
     this.handleResultChange = this.handleResultChange.bind(this);
@@ -26,10 +30,11 @@ class Tools extends React.Component {
     this.handleHighlightClick = this.handleHighlightClick.bind(this);
     this.setRef = this.setRef.bind(this);
   }
+
   componentDidMount() {
     // Calling a function on the Child DOM element
     this.uploadInput.focus();
-}
+  }
 
 
   handleUploadAudio(ev) { //added
@@ -57,7 +62,33 @@ class Tools extends React.Component {
     });
   }
 
+  handleUploadImage(ev) {
+    ev.preventDefault();
 
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+
+    fetch('http://localhost:5000/upload', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {
+      response.json().then((body) => {
+        console.log(body.text);
+        this.setState({
+          imageURL: "http://localhost:5000/static/" + body.filename,
+          imageText: body.text,
+          uploadedNotes: "true"
+        });
+        console.log(this.state.imageText);
+      });
+    });
+  }
+
+  handleClickDemo() {
+    this.setState({
+      uploadedNotes: "true"
+    });
+  }
 
   setRef(ref) {
     this.uploadInput = ref;
@@ -99,25 +130,25 @@ class Tools extends React.Component {
                       <button type="submit" class="ui blue button" onClick={this.handleUpload}>
                         Transcribe audio
                 </button>
-                      <UploadNotes onDataFetched={this.handleResultChange} />
+                      
                     </Modal.Description>
                   </Modal>
                 </Menu.Item>
               </Menu>
-              
 
+          
 
-              <UploadAudio 
-                onDataFetched={this.handleResultChange} 
-                title={this.state.title} 
+              <UploadAudio
+                onDataFetched={this.handleResultChange}
+                title={this.state.title}
                 setRef={this.setRef}
                 handleUploadAudio={this.handleUploadAudio.bind(this)}
                 audioURL={this.state.audioURL}
                 audioText={this.state.audioText}
                 timestamps={this.state.timestamps}
                 uploaded={this.state.uploaded}
-                />
-{/*}
+              />
+              {/*}
               <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                   <h2>{this.state.title}</h2>
@@ -129,7 +160,7 @@ class Tools extends React.Component {
               </Segment>
 
     */}
-                {/* FOR DEMO PURPOSES!!!
+              {/* FOR DEMO PURPOSES!!!
             <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload}>
             <i class="upload icon"></i> Upload and Transcribe
             </button>
@@ -146,7 +177,7 @@ class Tools extends React.Component {
     <p>SHAPIRO: On an issue that is related but separate, I want to ask about your very public criticism of the current CEO of Disney for his compensation package. You have no formal role with the Disney Company. For people who have not been following this very public back-and-forth, what is the nut of your critique here?</p>
     <p>DISNEY: The nut of my critique is that I know that company pretty well? Obviously, it's a big, sophisticated company. And it's grown a lot since I, you know, worked sort of in a way with it. When you're in what is setting up to be the largest media and entertainment conglomerate on the planet in the history of the world...</p>   </div>} 
     */}
-              
+
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
 
@@ -157,7 +188,16 @@ class Tools extends React.Component {
                     panes={[
                       {
                         menuItem: 'Notes', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}>
-                          <UploadNotes onDataFetched={this.handleResultChange} />
+                          <UploadNotes
+                        onDataFetched={this.handleResultChange}
+                        title={this.state.title}
+                        setRef={this.setRef}
+                        handleUploadImage={this.handleUploadImage.bind(this)}
+                        imageURL={this.state.imageURL}
+                        imageText={this.state.image}
+                        timestamps={this.state.timestamps}
+                        uploaded={this.state.uploadedNotes} 
+                        handleClickDemo={this.state.handleClickDemo}/>
                         </div>
                       },
                       { menuItem: 'Quote Bank', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><QuoteBank /></div> },

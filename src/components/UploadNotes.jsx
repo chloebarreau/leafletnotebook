@@ -3,52 +3,29 @@ import React from 'react';
 import { Button, Input, Icon, Menu, Segment, Header, Grid, Popup } from 'semantic-ui-react'
 import { HashLink as Link } from 'react-router-hash-link';
 
-class UploadImage extends React.Component {
+class UploadNotes extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      imageURL: '',
-      imageText: '',
-      uploaded: "true",
     };
-
-    this.handleUploadImage = this.handleUploadImage.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
   fileInputRef = React.createRef();
-
-  handleClick() {
-    this.setState({
-      uploaded: "true"
-    });
-  }
-
-  handleUploadImage(ev) {
-    ev.preventDefault();
-
-    const data = new FormData();
-    data.append('file', this.uploadInput.files[0]);
-
-    fetch('http://localhost:5000/upload', {
-      method: 'POST',
-      body: data,
-    }).then((response) => {
-      response.json().then((body) => {
-        console.log(body.text);
-        this.setState({
-          imageURL: "http://localhost:5000/static/" + body.filename,
-          imageText: body.text,
-          uploaded: "true"
-        });
-        console.log(this.state.imageText);
-        this.props.onDataFetched(this.state.imageText.title); {/* send image's text data to Tools component */ }
-      });
-    });
-  }
-
   render() {
+    console.log("timestamps inside notes:" + this.props.timestamps)
+    var roundedTimestamps = [];
+    console.log("before rounding")
+    if (this.props.timestamps.length > 0) {
+      console.log("inside and rounding")
+      this.props.timestamps.forEach(roundTimestamps);
+    }
+
+    function roundTimestamps(item) {
+      roundedTimestamps.push(Math.round(item));
+      console.log(roundedTimestamps)
+    }
+
     return (
       <Grid padded>
         <Grid.Row>
@@ -56,45 +33,45 @@ class UploadImage extends React.Component {
             <form onSubmit={this.handleClick} encType="multipart/form-data"> {/* !!!!!!!!! change back to ={this.handleUploadImage} when not in demo mode!!!*/}
 
               <div>
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                <Header as='h3'>Notes</Header>
-                
-                <Link to="/#tag">Your link text</Link>
-                <div className="right-btn">
-                <Popup content='This links timestamps in your notes to the audio' wide position='left center' trigger={<Button circular size='mini' icon='question' />} />
-                </div>
-              </div>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                  <Header as='h3'>Notes</Header>
 
-            <Button onClick={this.handleClick}>Upload Notes</Button>
-{/*} REAL UPLOAD BUTTON
+                  <div className="right-btn">
+                    <Popup content='This links timestamps in your notes to the audio' wide position='left center' trigger={<Button circular size='mini' icon='question' />} />
+                  </div>
+                </div>
+
+                <Button onClick={this.props.handleClickDemo}>Upload Notes</Button>
+                {/*} REAL UPLOAD BUTTON, DO NOT DELETE:
                 <label for="hidden-new-file" className="ui button">
                   Upload Notes
           </label>
                 <input type="file" id="hidden-new-file"
-                  ref={(ref) => { this.uploadInput = ref; }}
-                  onChange={this.handleUploadImage}  
+                  //ref={(ref) => { this.uploadInput = ref; }}
+                  ref={this.props.setRef} 
+                  onChange={this.props.handleUploadImage}  
                   style={{ display: "none" }}>
                 </input>
     */}
 
               </div>
               <br />
-             
-        {this.state.uploaded == "true" &&
-        <Segment className="notes">
-            <ul>
-              <li><Link to={"/#tag"}><div className="timestamp">0:28</div></Link> - <div className="note">"my class needs some really good traitors these days"</div></li>
-              <li><div className="timestamp">1:09</div> - <div className="note">"create the best and fairest country"</div></li>
-              <li><div className="timestamp">2:13</div> - <div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
-              <li><div className="timestamp">2:41</div> - <div className="note">"prefer that public schools function..."</div></li>
-            </ul>
-          </Segment>
-        }
-      {/*}
-              {this.state.uploaded == "true" &&
+
+
+              <Segment className="notes">
+                <ul>
+                  <li><Link to={"/#" + roundedTimestamps.indexOf(4).toString()}><div className="timestamp">0:04</div></Link> - <div className="note">"my class needs some really good traitors these days"</div></li>
+                  <li><Link to={"/#" + roundedTimestamps.indexOf(16).toString()}><div className="timestamp">0:16</div></Link> - <div className="note">"create the best and fairest country"</div></li>
+                  <li><Link to={"/#" + roundedTimestamps.indexOf(24).toString()}><div className="timestamp">0:24</div></Link> - <div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
+                  <li><Link to={"/#" + roundedTimestamps.indexOf(48).toString()}><div className="timestamp">0:48</div></Link> - <div className="note">"prefer that public schools function..."</div></li>
+                </ul>
+              </Segment>
+
+              {/*}
+              {this.props.uploaded == "true" &&
                 <Segment className="notes">
                   <ul>
-                    {Object.keys(this.state.imageText).map(key => {
+                    {Object.keys(this.props.imageText).map(key => {
                       if (key !== "title")
                         return (
                           <li><Link to={"/#" + {key}}> ///edited!!!
@@ -102,7 +79,7 @@ class UploadImage extends React.Component {
                               {key}
                             </div>
                             <div className="note">
-                              {this.state.imageText[key]}
+                              {this.props.imageText[key]}
                             </div>
                           </li>)
                       return
@@ -133,4 +110,4 @@ class UploadImage extends React.Component {
   }
 }
 
-export default UploadImage;
+export default UploadNotes;

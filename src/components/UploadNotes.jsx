@@ -3,6 +3,12 @@ import React from 'react';
 import { Button, Input, Icon, Menu, Segment, Header, Grid, Popup } from 'semantic-ui-react'
 import { HashLink as Link } from 'react-router-hash-link';
 
+const stylePop = {
+  borderRadius: 0,
+  opacity: 0.7,
+  padding: '2em',
+}
+
 class UploadNotes extends React.Component {
   constructor(props) {
     super(props);
@@ -48,7 +54,7 @@ class UploadNotes extends React.Component {
     */}
 
                   <div className="right-btn">
-                    <div className="gray-background"><Popup content='This links timestamps in your notes to the audio' wide position='left center' trigger={<Icon name='question' avatar style={{display: "inline-block", margin: "9px auto auto auto"}}/>} /></div>
+                    <Popup content='This links timestamps in your notes to the audio' basic size='mini' trigger={<div className="gray-background" ><Icon name='question' avatar style={{display: "inline-block", margin: "9px auto auto auto"}}/></div>} />
                   </div>
                 </div>
           

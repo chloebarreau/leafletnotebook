@@ -45,12 +45,13 @@ export default class News extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                <Header as='h3'>Quote Bank</Header>
+                {/*<Header as='h3'>Quote Bank</Header>*/}
+                <Button onClick={this.addQuote} className="green-btn">Add Highlight</Button>
                 <div className="right-btn">
                   <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
                 </div>
               </div>
-              <Button onClick={this.addQuote} className="green-btn">Add Highlight</Button>
+              
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

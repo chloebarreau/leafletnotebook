@@ -3,6 +3,7 @@ import UploadNotes from './UploadNotes'
 import UploadAudio from './UploadAudio'
 import TextEditor from './TextEditor'
 import News from './News';
+
 import QuoteBank from './QuoteBank';
 import { Grid, Menu, Header, Segment, Modal, Tab, Button, Icon } from 'semantic-ui-react'
 
@@ -10,13 +11,86 @@ class Tools extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Upload your audio file and an image of your notes",
+      title: "",
+      quotes: "",
+
+      audioURL: '', // added
+      audioText: ['1::  Okay, we can just I definitely do think ', "2:: that my time here. I've definitely felt like my disability has been more of a concern in the end, you know that in a positive way. Like I feel more looked after then I ", "1:: have an any educational institution. That's wonderful. That's crazy. And even like like this is such a good dumb example, but like on like the row every house is accessible at least the first floor. Oh, wow, like that's not something that you will find. ", '2:: Our ', "1:: universities. Yeah, and so the idea like even like if I don't ", "2:: want to go like I'd say, I don't want to go to a party like I don't know but the idea ", "1:: that I it's it's a choice I get to make whether I ", "2:: want to go or not, right? That's a really large. Yeah privilege. I don't I wouldn't have gotten really anywhere ", "1:: else. Yeah, like that's awesome. Yeah, I didn't even realize that that's right. Like I because I was driving to the like the dumb president reception. That was such a dumb event. Oh, yeah, you guys had to go to the"],
+      timestamps: [],
       uploaded: "false",
-      quotes: ""
+
+      imageURL: '',
+      imageText: '',
+      uploadedNotes: "true", // TRUE FOR DEMO, CHANGE TO FALSE FOR REAL USE
+
     };
     this.handleResultChange = this.handleResultChange.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleHighlightClick = this.handleHighlightClick.bind(this);
+    this.setRef = this.setRef.bind(this);
+  }
+
+  componentDidMount() {
+    // Calling a function on the Child DOM element
+    this.uploadInput.focus();
+  }
+
+
+  handleUploadAudio(ev) { //added
+    ev.preventDefault();
+
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+
+    fetch('http://localhost:5000/upload', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {
+      response.json().then((body) => {
+        console.log(body.text);
+        this.setState({
+          audioURL: "http://localhost:5000/static/" + body.filename,
+          audioText: body.text,
+          timestamps: body.timestamps,
+          uploaded: "true"
+        });
+
+        console.log("Video transcript: " + this.state.audioText);
+        console.log("Timestamps: " + this.state.timestamps);
+      });
+    });
+  }
+
+  handleUploadImage(ev) {
+    ev.preventDefault();
+
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+
+    fetch('http://localhost:5000/upload', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {
+      response.json().then((body) => {
+        console.log(body.text);
+        this.setState({
+          imageURL: "http://localhost:5000/static/" + body.filename,
+          imageText: body.text,
+          uploadedNotes: "true"
+        });
+        console.log(this.state.imageText);
+      });
+    });
+  }
+
+  handleClickDemo() {
+    this.setState({
+      uploadedNotes: "true"
+    });
+  }
+
+  setRef(ref) {
+    this.uploadInput = ref;
   }
 
   handleResultChange(data) {
@@ -49,22 +123,31 @@ class Tools extends React.Component {
                   <span className="large-text">Leaflet</span>
                 </Menu.Item>
                 <Menu.Item position='right'>
-                  <Modal style={{ alignItems: 'center', margin: 'auto', }} trigger={<Button className="light-green-btn">Upload</Button>}>
+                  {this.state.uploaded && this.state.uplaodedNotes && <Modal style={{ alignItems: 'center', margin: 'auto', }} trigger={<Button className="light-green-btn">Upload</Button>}>
                     <Header icon='upload' content='Upload Audio and Notes' />
                     <Modal.Description>
                       <button type="submit" class="ui blue button" onClick={this.handleUpload}>
                         Transcribe audio
                 </button>
-                      <UploadNotes onDataFetched={this.handleResultChange} />
+                      
                     </Modal.Description>
-                  </Modal>
+                  </Modal>}
                 </Menu.Item>
               </Menu>
-              
 
+          
 
-              <UploadAudio onDataFetched={this.handleResultChange} title={this.state.title}/>
-{/*}
+              <UploadAudio
+                onDataFetched={this.handleResultChange}
+                title={this.state.title}
+                setRef={this.setRef}
+                handleUploadAudio={this.handleUploadAudio.bind(this)}
+                audioURL={this.state.audioURL}
+                audioText={this.state.audioText}
+                timestamps={this.state.timestamps}
+                uploaded={this.state.uploaded}
+              />
+              {/*}
               <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                   <h2>{this.state.title}</h2>
@@ -76,7 +159,7 @@ class Tools extends React.Component {
               </Segment>
 
     */}
-                {/* FOR DEMO PURPOSES!!!
+              {/* FOR DEMO PURPOSES!!!
             <button type="submit" class="ui button" class="ui blue button" onClick={this.handleUpload}>
             <i class="upload icon"></i> Upload and Transcribe
             </button>
@@ -93,22 +176,31 @@ class Tools extends React.Component {
     <p>SHAPIRO: On an issue that is related but separate, I want to ask about your very public criticism of the current CEO of Disney for his compensation package. You have no formal role with the Disney Company. For people who have not been following this very public back-and-forth, what is the nut of your critique here?</p>
     <p>DISNEY: The nut of my critique is that I know that company pretty well? Obviously, it's a big, sophisticated company. And it's grown a lot since I, you know, worked sort of in a way with it. When you're in what is setting up to be the largest media and entertainment conglomerate on the planet in the history of the world...</p>   </div>} 
     */}
-              
+
               {/*<TextEditor />  ADD  BACK IN WHEN READY */}
             </Grid.Column>
 
             <Grid.Column width={5}>
               <span className="green-background">
                 <div className="smallMargin">
-                  <Tab menu={{ secondary: true, pointing: true }}
+                  <Tab menu={{ secondary: true, pointing: true }} renderActiveOnly={false} 
                     panes={[
                       {
-                        menuItem: 'Notes', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}>
-                          <UploadNotes onDataFetched={this.handleResultChange} />
-                        </div>
+                        menuItem: 'Notes', pane: <Tab.Pane style={{ maxHeight: "90vh", overflow: "auto"}}>
+                          <UploadNotes
+                        onDataFetched={this.handleResultChange}
+                        title={this.state.title}
+                        setRef={this.setRef}
+                        handleUploadImage={this.handleUploadImage.bind(this)}
+                        imageURL={this.state.imageURL}
+                        imageText={this.state.image}
+                        timestamps={this.state.timestamps}
+                        uploaded={this.state.uploadedNotes} 
+                        handleClickDemo={this.state.handleClickDemo}/>
+                        </Tab.Pane>
                       },
-                      { menuItem: 'Quote Bank', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><QuoteBank /></div> },
-                      { menuItem: 'News', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><News /></div> },
+                      { menuItem: 'Quote Bank', pane: <Tab.Pane attached><div style={{ minHeight: "80vh", maxHeight: "90vh", overflow: "auto" }}><QuoteBank /></div></Tab.Pane> },
+                      { menuItem: 'Related News', pane: <Tab.Pane attached><div style={{ maxHeight: "90vh", overflow: "auto" }}><News /></div> </Tab.Pane>},
                     ]}
                   />
                 </div>

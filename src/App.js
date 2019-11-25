@@ -1,4 +1,5 @@
 import React from 'react';
+import { HashRouter, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import TextEditor from './components/TextEditor';
@@ -8,10 +9,12 @@ import { Grid, Icon, Menu, Segment, Sidebar, Modal, Button,} from 'semantic-ui-r
 function App() {
 
   return (
-    <div>
-      <Tools />
-    </div>
+<HashRouter>
+        <Route path="/" component={Tools} />
+    </HashRouter>
   );
 }
 
 export default App;
+
+

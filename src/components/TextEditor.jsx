@@ -1,7 +1,7 @@
 // Import React!
 import React from 'react'
 import { Form, Button, Segment, Icon } from 'semantic-ui-react'
-import { EditorState, Editor, RichUtils, getDefaultKeyBinding} from 'draft-js'
+import { EditorState, ContentState, Editor, RichUtils, getDefaultKeyBinding} from 'draft-js'
 
 const basicTextStylePlugin = {
   keyBindingFn(event) {
@@ -26,7 +26,7 @@ class TextEditor extends React.Component {
     super(props);
     this.state = {
       value: '',
-      editorState: EditorState.createEmpty(),
+      editorState: EditorState.createWithContent(ContentState.createFromText('Hello')),
     };
      /* Create an array of plugins to be passed to `Editor` */
      this.plugins = [

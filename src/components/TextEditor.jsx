@@ -26,7 +26,7 @@ class TextEditor extends React.Component {
     super(props);
     this.state = {
       value: '',
-      editorState: EditorState.createWithContent(ContentState.createFromText('Hello')),
+      editorState: EditorState.createWithContent(ContentState.createFromText(this.props.audioText)),
     };
      /* Create an array of plugins to be passed to `Editor` */
      this.plugins = [

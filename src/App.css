@@ -87,6 +87,14 @@ figure {
   bottom: 0;
 }
 
+
+/******Tabs*****/
+.ui.tab {
+  background-color: var(--light-green) !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
 /******Segments******/
 .no-border {
   border: 0 none !important;

@@ -12,7 +12,6 @@ class Tools extends React.Component {
     super(props);
     this.state = {
       title: "",
-      uploaded: "false",
       quotes: "",
 
       audioURL: '', // added
@@ -22,7 +21,7 @@ class Tools extends React.Component {
 
       imageURL: '',
       imageText: '',
-      uploadedNotes: "true",
+      uploadedNotes: "true", // TRUE FOR DEMO, CHANGE TO FALSE FOR REAL USE
 
     };
     this.handleResultChange = this.handleResultChange.bind(this);
@@ -124,7 +123,7 @@ class Tools extends React.Component {
                   <span className="large-text">Leaflet</span>
                 </Menu.Item>
                 <Menu.Item position='right'>
-                  <Modal style={{ alignItems: 'center', margin: 'auto', }} trigger={<Button className="light-green-btn">Upload</Button>}>
+                  {this.state.uploaded && this.state.uplaodedNotes && <Modal style={{ alignItems: 'center', margin: 'auto', }} trigger={<Button className="light-green-btn">Upload</Button>}>
                     <Header icon='upload' content='Upload Audio and Notes' />
                     <Modal.Description>
                       <button type="submit" class="ui blue button" onClick={this.handleUpload}>
@@ -132,7 +131,7 @@ class Tools extends React.Component {
                 </button>
                       
                     </Modal.Description>
-                  </Modal>
+                  </Modal>}
                 </Menu.Item>
               </Menu>
 
@@ -184,10 +183,10 @@ class Tools extends React.Component {
             <Grid.Column width={5}>
               <span className="green-background">
                 <div className="smallMargin">
-                  <Tab menu={{ secondary: true, pointing: true }}
+                  <Tab menu={{ secondary: true, pointing: true }} renderActiveOnly={false} 
                     panes={[
                       {
-                        menuItem: 'Notes', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}>
+                        menuItem: 'Notes', pane: <Tab.Pane style={{ maxHeight: "90vh", overflow: "auto"}}>
                           <UploadNotes
                         onDataFetched={this.handleResultChange}
                         title={this.state.title}
@@ -198,10 +197,10 @@ class Tools extends React.Component {
                         timestamps={this.state.timestamps}
                         uploaded={this.state.uploadedNotes} 
                         handleClickDemo={this.state.handleClickDemo}/>
-                        </div>
+                        </Tab.Pane>
                       },
-                      { menuItem: 'Quote Bank', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><QuoteBank /></div> },
-                      { menuItem: 'News', render: () => <div style={{ maxHeight: "90vh", overflow: "auto" }}><News /></div> },
+                      { menuItem: 'Quote Bank', pane: <Tab.Pane attached><div style={{ minHeight: "80vh", maxHeight: "90vh", overflow: "auto" }}><QuoteBank /></div></Tab.Pane> },
+                      { menuItem: 'News', pane: <Tab.Pane attached><div style={{ maxHeight: "90vh", overflow: "auto" }}><News /></div> </Tab.Pane>},
                     ]}
                   />
                 </div>

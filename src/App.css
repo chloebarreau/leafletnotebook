@@ -66,7 +66,7 @@ li.speaker-red {
 
 
 /******Buttons******/
-.green-btn {
+.ui.button.green, .green-btn {
   background-color: var(--main-green) !important;
   color: white !important;
 }
@@ -75,6 +75,13 @@ li.speaker-red {
 }
 .right-btn {
   margin-top: -4px;
+}
+.gray-background {
+  background-color: #e1e1e1;
+  text-align: center;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
 }
 
 /******Audio******/

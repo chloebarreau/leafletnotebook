@@ -34,16 +34,9 @@ class UploadNotes extends React.Component {
 
               <div>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                  <Header as='h3'>Notes</Header>
-
-                  <div className="right-btn">
-                    <Popup content='This links timestamps in your notes to the audio' wide position='left center' trigger={<Button circular size='mini' icon='question' />} />
-                  </div>
-                </div>
-
-                <Button onClick={this.props.handleClickDemo}>Upload Notes</Button>
+                  {/*<Header as='h3'>Notes</Header>*/} <Button onClick={this.props.handleClickDemo} className="green-btn">Upload Notes</Button>
                 {/*} REAL UPLOAD BUTTON, DO NOT DELETE:
-                <label for="hidden-new-file" className="ui button">
+                <label for="hidden-new-file" className="ui button green">
                   Upload Notes
           </label>
                 <input type="file" id="hidden-new-file"
@@ -53,6 +46,13 @@ class UploadNotes extends React.Component {
                   style={{ display: "none" }}>
                 </input>
     */}
+
+                  <div className="right-btn">
+                    <div className="gray-background"><Popup content='This links timestamps in your notes to the audio' wide position='left center' trigger={<Icon name='question' avatar style={{display: "inline-block", margin: "9px auto auto auto"}}/>} /></div>
+                  </div>
+                </div>
+          
+        
 
               </div>
               <br />

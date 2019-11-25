@@ -52,16 +52,9 @@ class Main extends React.Component {
       <div className="transcript">
         <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-            <h2>{this.props.title}</h2>
-            <div className="right-btn">
-              <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
-            </div>
-          </div>
-          <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
-            {this.props.uploaded == "false" && <div>
-
-              <label for="hidden-new-audio-file" class="ui button">
-                Upload Audio
+          {this.props.uploaded == "false" && <div>
+          <label for="hidden-new-audio-file" class="ui button green">
+              Upload Audio
           </label>
               <input type="file" id="hidden-new-audio-file"
                 //ref={(ref) => { this.uploadInput = ref; }}
@@ -71,6 +64,14 @@ class Main extends React.Component {
               </input>
             </div>
             }
+         
+            <h2>{this.props.title}</h2>
+            <div className="right-btn">
+              <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon'/></Button>
+            </div>
+          </div>
+          <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
+
             <br />
             <ul>
             <div>

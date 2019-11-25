@@ -177,7 +177,7 @@ class Tools extends React.Component {
     <p>DISNEY: The nut of my critique is that I know that company pretty well? Obviously, it's a big, sophisticated company. And it's grown a lot since I, you know, worked sort of in a way with it. When you're in what is setting up to be the largest media and entertainment conglomerate on the planet in the history of the world...</p>   </div>} 
     */}
 
-            <TextEditor /> 
+            <TextEditor audioText={this.state.audioText.join()}/> 
             </Grid.Column>
 
             <Grid.Column width={5}>

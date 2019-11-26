@@ -6,8 +6,10 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      playing: false
     };
     this.playWord = this.playWord.bind(this);
+    this.keyPress = this.keyPress.bind(this);
   }
 
   fileInputRef = React.createRef();
@@ -27,7 +29,26 @@ class Main extends React.Component {
       console.log("after setstate: " + this.props.audioText)
     }
   */
-
+  keyPress(event) {
+    switch (event.keyCode) {
+      case 32: //SpaceBar       
+        event.preventDefault();
+        if (this.state.playing) {
+          this.audio.pause();
+          this.setState({ playing: false })
+        } else {
+          this.audio.play();
+          this.setState({ playing: true })
+        }
+        break;
+    }
+  }
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyPress, false);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.keyPress, false);
+  }
 
   downloadTxtFile = () => {
     const element = document.createElement("a");
@@ -39,11 +60,11 @@ class Main extends React.Component {
     element.click();
   }
 
-  playWord(event) {
+  playWord(event) { // plays word when clicked, only works for audio files < 1 min
     const id = event.target.id;
     const seconds = parseInt(this.props.timestamps[id]);
-    console.log(this.props.timestamps[id])
     this.audio.currentTime = seconds;
+    this.audio.autoplay = true;
   }
 
   render() {
@@ -99,7 +120,6 @@ class Main extends React.Component {
                 })}
               </div>
             </ul>
-            {console.log("AFTER MAP " + this.props.audioText)}
             {/*}
         <ul>
           {Object.keys(this.state.imageText).map(key =>
@@ -110,11 +130,13 @@ class Main extends React.Component {
         </ul>
         */}
           </form>
-          <audio id="player" ref={(audio) => { this.audio = audio }} controls currentTime="5"
-            src="http://localhost:5000/static/fieldinterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
-            Your browser does not support the
+          <figure>
+            <audio id="audio" ref={(audio) => { this.audio = audio }} controls currentTime="5"
+              src="http://localhost:5000/static/fieldinterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
+              Your browser does not support the
               <code>audio</code> element.
               </audio>
+          </figure>
         </Segment>
       </div>
     );

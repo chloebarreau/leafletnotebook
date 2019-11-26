@@ -29,7 +29,6 @@ class UploadNotes extends React.Component {
 
     function roundTimestamps(item) {
       roundedTimestamps.push(Math.round(item));
-      console.log(roundedTimestamps)
     }
 
     return (

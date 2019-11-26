@@ -60,7 +60,12 @@ li.speaker-red {
   padding-left: 48px;
   padding-top: 5px;
 }
-
+.highlight {
+  background-color: var(--medium-green);
+}
+.highlight ~ .highlight {
+  background-color: white;
+}
 
 
 

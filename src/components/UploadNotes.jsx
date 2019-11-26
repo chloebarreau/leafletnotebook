@@ -12,7 +12,6 @@ const stylePop = {
 class UploadNotes extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
     };
   }
@@ -20,6 +19,7 @@ class UploadNotes extends React.Component {
   fileInputRef = React.createRef();
   render() {
     console.log("timestamps inside notes:" + this.props.timestamps)
+    {/*}
     var roundedTimestamps = [];
     console.log("before rounding")
     if (this.props.timestamps.length > 0) {
@@ -30,7 +30,7 @@ class UploadNotes extends React.Component {
     function roundTimestamps(item) {
       roundedTimestamps.push(Math.round(item));
     }
-
+  */}
     return (
       <Grid padded>
         <Grid.Row>
@@ -65,10 +65,10 @@ class UploadNotes extends React.Component {
 
               <Segment className="notes">
                 <ul>
-                  <li><Link to={"/#" + roundedTimestamps.indexOf(4).toString()}><div className="timestamp">0:04</div></Link> - <div className="note">"my class needs some really good traitors these days"</div></li>
-                  <li><Link to={"/#" + roundedTimestamps.indexOf(16).toString()}><div className="timestamp">0:16</div></Link> - <div className="note">"create the best and fairest country"</div></li>
-                  <li><Link to={"/#" + roundedTimestamps.indexOf(24).toString()}><div className="timestamp">0:24</div></Link> - <div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
-                  <li><Link to={"/#" + roundedTimestamps.indexOf(48).toString()}><div className="timestamp">0:48</div></Link> - <div className="note">"prefer that public schools function..."</div></li>
+                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(4).toString()}><div className="timestamp">0:04</div></Link> - <div className="note">"my class needs some really good traitors these days"</div></li>
+                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(16).toString()}><div className="timestamp">0:16</div></Link> - <div className="note">"create the best and fairest country"</div></li>
+                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(24).toString()}><div className="timestamp">0:24</div></Link> - <div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
+                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(48).toString()}><div className="timestamp">0:48</div></Link> - <div className="note">"prefer that public schools function..."</div></li>
                 </ul>
               </Segment>
 

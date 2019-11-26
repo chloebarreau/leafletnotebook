@@ -1,15 +1,18 @@
 // Main code from https://medium.com/excited-developers/file-upload-with-react-flask-e115e6f2bf99
 import React from 'react';
 import { Button, Input, Icon, Menu, Segment } from 'semantic-ui-react'
+import Highlight from 'react-highlighter'
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      playing: false
+      playing: false,
+      highlighted: "fox"
     };
     this.playWord = this.playWord.bind(this);
     this.keyPress = this.keyPress.bind(this);
+    this.addHighlight = this.addHighlight.bind(this);
   }
 
   fileInputRef = React.createRef();
@@ -49,11 +52,42 @@ class Main extends React.Component {
         break;
     }
   }
+  addHighlight = (event) => {
+    console.log(event.target.currentTime)
+    var allTimes = this.props.timestamps,
+      goal = event.target.currentTime;
+
+    var closestTime = allTimes.reduce(function (prev, curr) {
+      return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
+    });
+
+    var wordIndex = this.props.timestamps.indexOf(closestTime).toString();
+    console.log("index of timestamp with closest time:" + wordIndex);
+    var wordToHighlight = this.refs.wordIndex;
+    console.log("dom" + wordToHighlight);
+    this.setState({ highlighted: wordToHighlight });
+    console.log(wordToHighlight);
+  }
+
   componentDidMount() {
     document.addEventListener("keydown", this.keyPress, false);
+    this.audio.addEventListener("timeupdate", this.addHighlight = (event) => {
+      console.log(event.target.currentTime)
+      var allTimes = this.props.timestamps,
+        goal = event.target.currentTime;
+
+      var closestTime = allTimes.reduce(function (prev, curr) {
+        return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
+      });
+
+      var wordIndex = this.props.timestamps.indexOf(closestTime).toString();
+      var wordToHighlight = this.refs["word" + wordIndex].innerText;
+      this.setState({ highlighted: wordToHighlight });
+    })
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this.keyPress, false);
+    this.audio.removeEventListener("timeupdate", this.addHighlight, false);
   }
 
   downloadTxtFile = () => {
@@ -99,18 +133,19 @@ class Main extends React.Component {
             </div>
           </div>
           <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
-
             <br />
             <ul>
               <div>
+
                 {this.props.audioText.map((item, index) => {
                   if ((item.includes("2:: ")) && item.substring(4, item.length) != "")
                     return (<div>
                       <li key={index} className="speaker-red">
                         <div className="timestamp">
+
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
                         </div>
-                        {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{" " + word}</span>)}
+                        {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} ref={"word" + indexNumber} onClick={this.playWord}><Highlight search={this.state.highlighted}>{" " + word}</Highlight></span>)}
                       </li>
                     </div>)
                   else
@@ -120,10 +155,11 @@ class Main extends React.Component {
                           <div className="timestamp">
                             {this.props.timestamps[indexNumber]}0:04
                       </div>
-                          {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} onClick={this.playWord}>{word + " "}</span>)}
+                          {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} ref={"word" + indexNumber} onClick={this.playWord}><Highlight search={this.state.highlighted}>{word + " "}</Highlight></span>)}
                         </li>
                       </div>)
                 })}
+
               </div>
             </ul>
             {/*}

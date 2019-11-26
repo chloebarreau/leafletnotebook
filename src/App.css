@@ -10,7 +10,7 @@
   width: 31%;  /* 5/16 columns */
   height: 100%;
   top: 0;
-  padding: 24px 8px 16px 16px;
+  padding: 24px 20px 16px 16px;
   background-color: var(--light-green) !important;
   position: fixed;
 }
@@ -50,7 +50,7 @@
 li.speaker-yellow {
   background: url('./components/images/speaker1.png') no-repeat left top;
   background-size: 30px;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   padding-left: 48px;
   padding-top: 5px;
 }
@@ -105,7 +105,7 @@ figure {
 /******Segments******/
 .no-border {
   border: 0 none !important;
-  /*box-shadow: none !important;  COMMENTED OUT TO SEE EDGES WHILE formatting, UNCOMMENT FOR FINAL DEMO/LOOK!!!!!!!!!!!!!!*/
+  box-shadow: none !important;
 }
 .bitOfPadding {
   margin: 2px;

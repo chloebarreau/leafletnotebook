@@ -5,7 +5,6 @@ import { Button, Input, Icon, Menu, Segment } from 'semantic-ui-react'
 class Main extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
     };
     this.playWord = this.playWord.bind(this);
@@ -42,7 +41,9 @@ class Main extends React.Component {
 
   playWord(event) {
     const id = event.target.id;
-    console.log(this.props.timestamps[id]);
+    const seconds = parseInt(this.props.timestamps[id]);
+    console.log(this.props.timestamps[id])
+    this.audio.currentTime = seconds;
   }
 
   render() {
@@ -109,8 +110,8 @@ class Main extends React.Component {
         </ul>
         */}
           </form>
-          <audio id="audio-player" controls
-            src={this.props.audioURL}>
+          <audio id="player" ref={(audio) => { this.audio = audio }} controls currentTime="5"
+            src="http://localhost:5000/static/fieldinterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
             Your browser does not support the
               <code>audio</code> element.
               </audio>

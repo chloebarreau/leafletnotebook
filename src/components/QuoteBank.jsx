@@ -33,7 +33,7 @@ export default class News extends React.Component {
     const file = new Blob(this.state.quotes.map((quote) => (quote.value + "\n\n")), { type: 'text/plain' });
     console.log(this.state.quotes)
     element.href = URL.createObjectURL(file);
-    element.download = "transcript.txt";
+    element.download = "quotes.txt";
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
   }

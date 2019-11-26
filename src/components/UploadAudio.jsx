@@ -31,7 +31,7 @@ class Main extends React.Component {
   */
   keyPress(event) {
     switch (event.keyCode) {
-      case 32: //SpaceBar       
+      case 32: // space bar       
         event.preventDefault();
         if (this.state.playing) {
           this.audio.pause();
@@ -40,6 +40,12 @@ class Main extends React.Component {
           this.audio.play();
           this.setState({ playing: true })
         }
+        break;
+      case 37: // left arrow key; rewinds by 5 secs
+        this.audio.currentTime -= 5;
+        break;
+      case 39: // right arrow key; skips 5 secs
+        this.audio.currentTime += 5;
         break;
     }
   }

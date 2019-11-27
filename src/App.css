@@ -61,10 +61,22 @@ li.speaker-red {
   padding-top: 5px;
 }
 .highlight {
-  background-color: var(--medium-green);
+  background-color: var(--main-green);
+  color: white;
+  z-index: 2;
 }
 .highlight ~ .highlight {
   background-color: white;
+}
+.transcript::-moz-selection { /* change color of highlight */
+  background: var(--medium-green);
+}
+.transcript ::-webkit-selection {
+  background: var(--medium-green);
+}
+.transcript ::selection {
+  background: var(--medium-green);
+  z-index: 1;
 }
 
 
@@ -109,10 +121,6 @@ figure {
   width: 100%;
   z-index: 1;
 }
-audio::-webkit-media-controls-seek-back-button {
-  background-color: blue;
-}
-
 
 /******Tabs*****/
 .ui.tab {

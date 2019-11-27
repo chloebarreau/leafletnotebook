@@ -85,6 +85,43 @@ class Main extends React.Component {
       this.setState({ highlighted: wordToHighlight });
     })
   }
+  /* attempt to highlight multiple words at a time, doesn't work
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyPress, false);
+    this.audio.addEventListener("timeupdate", this.addHighlight = (event) => {
+      console.log(event.target.currentTime)
+      var allTimes = this.props.roundedTimestamps,
+        goal = event.target.currentTime;
+
+      var closestTime = allTimes.reduce(function (prev, curr) {
+        return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
+      });
+
+      var indexes = [], i;
+      for(i = 0; i < allTimes.length; i++)
+          if (allTimes[i] === closestTime)
+              indexes.push(i);
+
+      console.log(indexes)
+      var wordsToHighlight = "";
+
+      indexes.forEach(function(index) {
+        var wordToHighlight = this.refs["word" + index].innerText;
+        wordsToHighlight += wordToHighlight + " ";
+      });
+      console.log(wordsToHighlight)
+
+      this.setState({ highlighted: wordsToHighlight });
+      //var wordIndex = this.props.roundedTimestamps.indexOf(closestTime).toString();
+
+      /*console.log("index of timestamp with closest time:" + wordIndex);
+      console.log("refs " + this.refs["word" + wordIndex]);
+      var wordToHighlight = this.refs["word" + wordIndex].innerText;
+      console.log("dom: " + wordToHighlight.innerText);
+      this.setState({ highlighted: wordToHighlight });
+    })
+  }
+*/
   componentWillUnmount() {
     document.removeEventListener("keydown", this.keyPress, false);
     this.audio.removeEventListener("timeupdate", this.addHighlight, false);

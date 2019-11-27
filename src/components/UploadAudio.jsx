@@ -54,25 +54,6 @@ class Main extends React.Component {
   }
   addHighlight = (event) => {
     console.log(event.target.currentTime)
-    var allTimes = this.props.timestamps,
-      goal = event.target.currentTime;
-
-    var closestTime = allTimes.reduce(function (prev, curr) {
-      return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
-    });
-
-    var wordIndex = this.props.timestamps.indexOf(closestTime).toString();
-    console.log("index of timestamp with closest time:" + wordIndex);
-    var wordToHighlight = this.refs.wordIndex;
-    console.log("dom" + wordToHighlight);
-    this.setState({ highlighted: wordToHighlight });
-    console.log(wordToHighlight);
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.keyPress, false);
-    this.audio.addEventListener("timeupdate", this.addHighlight = (event) => {
-      console.log(event.target.currentTime)
       var allTimes = this.props.timestamps,
         goal = event.target.currentTime;
 
@@ -83,7 +64,11 @@ class Main extends React.Component {
       var wordIndex = this.props.timestamps.indexOf(closestTime).toString();
       var wordToHighlight = this.refs["word" + wordIndex].innerText;
       this.setState({ highlighted: wordToHighlight });
-    })
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyPress, false);
+    this.audio.addEventListener("timeupdate", this.addHighlight, false);
   }
   /* attempt to highlight multiple words at a time, doesn't work
   componentDidMount() {
@@ -179,7 +164,6 @@ class Main extends React.Component {
                     return (<div>
                       <li key={index} className="speaker-red">
                         <div className="timestamp">
-
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
                         </div>
                         {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} ref={"word" + indexNumber} onClick={this.playWord}><Highlight search={this.state.highlighted}>{" " + word}</Highlight></span>)}

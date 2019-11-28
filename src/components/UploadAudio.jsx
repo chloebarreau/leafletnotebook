@@ -8,73 +8,17 @@ class Main extends React.Component {
     super(props);
     this.state = {
       playing: false,
-      highlighted: "fox"
     };
-    this.playWord = this.playWord.bind(this);
-    this.keyPress = this.keyPress.bind(this);
-    this.addHighlight = this.addHighlight.bind(this);
   }
 
   fileInputRef = React.createRef();
 
-  /*} not working 
-    editTranscript(e, index) {
-      console.log(e.target.textContent);
-      let tmpArr = this.props.audioText;
-    
-      if (index % 2 === 1) { // second speaker
-        tmpArr[index] = "2:: " + e.target.textContent;
-      }
-      else {
-        tmpArr[index] = "1:: " + e.target.textContent;
-      }
-      this.setState({ audioText: tmpArr})
-      console.log("after setstate: " + this.props.audioText)
-    }
-  */
-  keyPress(event) {
-    switch (event.keyCode) {
-      case 32: // space bar       
-        event.preventDefault();
-        if (this.state.playing) {
-          this.audio.pause();
-          this.setState({ playing: false })
-        } else {
-          this.audio.play();
-          this.setState({ playing: true })
-        }
-        break;
-      case 37: // left arrow key; rewinds by 5 secs
-        this.audio.currentTime -= 5;
-        break;
-      case 39: // right arrow key; skips 5 secs
-        this.audio.currentTime += 5;
-        break;
-    }
-  }
-  addHighlight = (event) => {
-    //console.log(event.target.currentTime)
-      var allTimes = this.props.timestamps,
-        goal = event.target.currentTime;
+ componentDidMount() {
+  // pass the requested ref here
+  this.props.passRefUpward(this.refs);
+  console.log(this.refs)
 
-      var closestTime = allTimes.reduce(function (prev, curr) {
-        return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
-      });
-
-      var wordIndex = this.props.timestamps.indexOf(closestTime) + 1;
-      //var wordToHighlight = this.refs[wordIndex].innerText;
-      this.setState({ highlighted: wordIndex.toString() });
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.keyPress, false);
-    this.audio.addEventListener("timeupdate", this.addHighlight, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.keyPress, false);
-    this.audio.removeEventListener("timeupdate", this.addHighlight, false);
-  }
+} 
 
   downloadTxtFile = () => {
     const element = document.createElement("a");
@@ -84,14 +28,6 @@ class Main extends React.Component {
     element.download = "transcript.txt";
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
-  }
-
-  playWord(event) { // plays word when clicked, only works for audio files < 1 min
-    const id = event.target.id;
-    const seconds = this.props.timestamps[id];
-    console.log(id, seconds);
-    this.audio.currentTime = seconds;
-    this.audio.play();
   }
 
   render() {
@@ -132,8 +68,8 @@ class Main extends React.Component {
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
                         </div>
                         {item.trim().substring(4, item.length).split(" ").map((word) => {
-                          var className = this.state.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
-                          return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.playWord}>{" " + word}</span>})}
+                          var className = this.props.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
+                          return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.props.playWord}>{" " + word}</span>})}
                       </li>
                     </div>)
                   else
@@ -144,8 +80,8 @@ class Main extends React.Component {
                             {this.props.timestamps[indexNumber]}0:04
                       </div>
                           {item.trim().substring(4, item.length).split(" ").map((word) => {
-                            var className = this.state.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
-                            return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.playWord}>{" " + word}</span>})}
+                            var className = this.props.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
+                            return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.props.playWord}>{" " + word}</span>})}
                         </li>
                       </div>)
                 })}
@@ -162,13 +98,6 @@ class Main extends React.Component {
         </ul>
         */}
           </form>
-          <figure>
-            <audio id="audio" ref={(audio) => { this.audio = audio }} controls currentTime="5"
-              src="http://localhost:5000/static/fieldinterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
-              Your browser does not support the
-              <code>audio</code> element.
-              </audio>
-          </figure>
         </Segment>
       </div>
     );

@@ -24,14 +24,22 @@
   padding: 0 16px;
   list-style-type: none;
 }
+.notes ul li {
+  cursor: pointer;
+}
+.notes ul li:hover {
+  color: var(--main-green);
+}
 .timestamp {
   font-size: 12px;
   color: var(--light-gray);
 }
 .note {
   font-size: 14px;
-  margin-bottom: 4px;
+  margin-top: 4px;
+  margin-bottom: 12px;
 }
+
 
 /******Transcript******/
 .transcript {
@@ -47,14 +55,14 @@ li.speaker-yellow {
   background-size: 30px;
   padding-bottom: 8px;
   padding-left: 48px;
-  padding-top: 5px;
+  padding-top: 4px;
 }
 li.speaker-red {
   background: url('./components/images/speaker2.png') no-repeat left top;
   background-size: 30px;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   padding-left: 48px;
-  padding-top: 5px;
+  padding-top: 4px;
 }
 .highlight {
   background-color: var(--main-green);

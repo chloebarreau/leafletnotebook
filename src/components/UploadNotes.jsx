@@ -17,20 +17,8 @@ class UploadNotes extends React.Component {
   }
 
   fileInputRef = React.createRef();
-  render() {
-    console.log("timestamps inside notes:" + this.props.timestamps)
-    {/*}
-    var roundedTimestamps = [];
-    console.log("before rounding")
-    if (this.props.timestamps.length > 0) {
-      console.log("inside and rounding")
-      this.props.timestamps.forEach(roundTimestamps);
-    }
 
-    function roundTimestamps(item) {
-      roundedTimestamps.push(Math.round(item));
-    }
-  */}
+  render() {
     return (
       <Grid padded>
         <Grid.Row>
@@ -53,7 +41,7 @@ class UploadNotes extends React.Component {
     */}
 
                   <div className="right-btn">
-                    <Popup content='This links timestamps in your notes to the audio' basic size='mini' trigger={<div className="gray-background" ><Icon name='question' avatar style={{display: "inline-block", margin: "9px auto auto auto"}}/></div>} />
+                    <Popup content='This links timestamps in your notes to the audio. Click the timestamps to hear the original quote!' basic size='mini' trigger={<div className="gray-background" ><Icon name='question' avatar style={{display: "inline-block", margin: "9px auto auto auto"}}/></div>} />
                   </div>
                 </div>
               </div>
@@ -62,10 +50,10 @@ class UploadNotes extends React.Component {
 
               <Segment className="notes">
                 <ul>
-                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(4).toString()}><div className="timestamp">0:04</div></Link> - <div className="note">"my class needs some really good traitors these days"</div></li>
-                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(16).toString()}><div className="timestamp">0:16</div></Link> - <div className="note">"create the best and fairest country"</div></li>
-                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(24).toString()}><div className="timestamp">0:24</div></Link> - <div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
-                  <li><Link to={"/#" + this.props.roundedTimestamps.indexOf(48).toString()}><div className="timestamp">0:48</div></Link> - <div className="note">"prefer that public schools function..."</div></li>
+                  <li onClick={this.props.playQuote}><div className="timestamp">0:04</div><div className="note">"my class needs some really good traitors these days"</div></li>
+                  <li onClick={this.props.playQuote}><div className="timestamp">0:16</div><div className="note">"create the best and fairest country"</div></li>
+                  <li onClick={this.props.playQuote}><div className="timestamp">0:24</div><div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
+                  <li onClick={this.props.playQuote}><div className="timestamp">0:48</div><div className="note">"prefer that public schools function..."</div></li>
                 </ul>
               </Segment>
 

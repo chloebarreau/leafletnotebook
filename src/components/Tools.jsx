@@ -24,11 +24,19 @@ class Tools extends React.Component {
       imageText: '',
       uploadedNotes: "true", // TRUE FOR DEMO, CHANGE TO FALSE FOR REAL USE
 
+      highlighted: "fox",
+      myRequestedRefs: {}
     };
     this.handleResultChange = this.handleResultChange.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleHighlightClick = this.handleHighlightClick.bind(this);
     this.setRef = this.setRef.bind(this);
+
+    this.playWord = this.playWord.bind(this);
+    this.playQuote = this.playQuote.bind(this);
+    this.keyPress = this.keyPress.bind(this);
+    this.addHighlight = this.addHighlight.bind(this);
+    this.getRefsFromChild = this.getRefsFromChild.bind(this);
   }
 
   componentDidMount() {
@@ -125,6 +133,75 @@ class Tools extends React.Component {
     });
   }
 
+  addHighlight = (event) => {
+    //console.log(event.target.currentTime)
+      var allTimes = this.state.timestamps,
+        goal = event.target.currentTime;
+
+      var closestTime = allTimes.reduce(function (prev, curr) {
+        return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
+      });
+
+      var wordIndex = this.state.timestamps.indexOf(closestTime) + 1;
+      //var wordToHighlight = this.refs[wordIndex].innerText;
+      this.setState({ highlighted: wordIndex.toString() });
+  }
+
+  keyPress(event) {
+    switch (event.keyCode) {
+      case 32: // space bar       
+        event.preventDefault();
+        if (this.state.playing) {
+          this.audio.pause();
+          this.setState({ playing: false })
+        } else {
+          this.audio.play();
+          this.setState({ playing: true })
+        }
+        break;
+      case 37: // left arrow key; rewinds by 5 secs
+        this.audio.currentTime -= 5;
+        break;
+      case 39: // right arrow key; skips 5 secs
+        this.audio.currentTime += 5;
+        break;
+    }
+  }
+
+  playWord(event) { // plays word when clicked, only works for audio files < 1 min
+    const id = event.target.id;
+    const seconds = this.state.timestamps[id];
+    console.log(id, seconds);
+    this.audio.currentTime = seconds;
+    this.audio.play();
+  }
+
+  playQuote(event) { // plays word when clicking on timestamp in transcript
+    const note = event.currentTarget.textContent;
+    const indexColon = note.indexOf(":");
+    console.log("colon index: " +indexColon)
+    var timestamp = note.substring(indexColon + 1);
+    timestamp = parseInt(timestamp)
+    this.audio.currentTime = timestamp;
+    this.audio.play();
+  }
+
+  getRefsFromChild(childRefs) {
+    this.setState({
+      myRequestedRefs: childRefs
+    });
+    console.log("requested refs:" + childRefs["word0"]); // this should have *info*, *contact* as keys
+  }  
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyPress, false);
+    this.audio.addEventListener("timeupdate", this.addHighlight, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.keyPress, false);
+    this.audio.removeEventListener("timeupdate", this.addHighlight, false);
+  }
   render() {
     return (
       <div>
@@ -151,6 +228,10 @@ class Tools extends React.Component {
           
 
               <UploadAudio
+                highlighted={this.state.highlighted}
+                playWord={this.playWord.bind(this)}
+                passRefUpward={this.getRefsFromChild} 
+
                 onDataFetched={this.handleResultChange}
                 title={this.state.title}
                 setRef={this.setRef}
@@ -202,6 +283,7 @@ class Tools extends React.Component {
                       {
                         menuItem: 'Notes', pane: <Tab.Pane style={{ maxHeight: "90vh", overflow: "auto"}}>
                           <UploadNotes
+                        playQuote={this.playQuote}
                         onDataFetched={this.handleResultChange}
                         title={this.state.title}
                         setRef={this.setRef}
@@ -223,17 +305,13 @@ class Tools extends React.Component {
             </Grid.Column>
 
           </Grid.Row>
-          {/*}
           <figure>
-              <figcaption>Listen to the T-Rex:</figcaption>
-              <audio 
-                  controls
-                  src="../S2_EP2.mp3">
-                      Your browser does not support the
-                      <code>audio</code> element.
+            <audio id="audio" ref={(audio) => { this.audio = audio }} controls currentTime="5"
+              src="http://localhost:5000/static/fieldinterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
+              Your browser does not support the
+              <code>audio</code> element.
               </audio>
           </figure>
-                  */}
         </Grid>
       </div>
     );

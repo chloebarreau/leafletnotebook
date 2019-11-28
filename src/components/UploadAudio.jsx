@@ -53,26 +53,7 @@ class Main extends React.Component {
     }
   }
   addHighlight = (event) => {
-    console.log(event.target.currentTime)
-    var allTimes = this.props.timestamps,
-      goal = event.target.currentTime;
-
-    var closestTime = allTimes.reduce(function (prev, curr) {
-      return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
-    });
-
-    var wordIndex = this.props.timestamps.indexOf(closestTime).toString();
-    console.log("index of timestamp with closest time:" + wordIndex);
-    var wordToHighlight = this.refs.wordIndex;
-    console.log("dom" + wordToHighlight);
-    this.setState({ highlighted: wordToHighlight });
-    console.log(wordToHighlight);
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.keyPress, false);
-    this.audio.addEventListener("timeupdate", this.addHighlight = (event) => {
-      console.log(event.target.currentTime)
+    //console.log(event.target.currentTime)
       var allTimes = this.props.timestamps,
         goal = event.target.currentTime;
 
@@ -80,11 +61,16 @@ class Main extends React.Component {
         return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
       });
 
-      var wordIndex = this.props.timestamps.indexOf(closestTime).toString();
-      var wordToHighlight = this.refs["word" + wordIndex].innerText;
-      this.setState({ highlighted: wordToHighlight });
-    })
+      var wordIndex = this.props.timestamps.indexOf(closestTime) + 1;
+      //var wordToHighlight = this.refs[wordIndex].innerText;
+      this.setState({ highlighted: wordIndex.toString() });
   }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyPress, false);
+    this.audio.addEventListener("timeupdate", this.addHighlight, false);
+  }
+
   componentWillUnmount() {
     document.removeEventListener("keydown", this.keyPress, false);
     this.audio.removeEventListener("timeupdate", this.addHighlight, false);
@@ -102,7 +88,8 @@ class Main extends React.Component {
 
   playWord(event) { // plays word when clicked, only works for audio files < 1 min
     const id = event.target.id;
-    const seconds = parseInt(this.props.timestamps[id]);
+    const seconds = this.props.timestamps[id];
+    console.log(id, seconds);
     this.audio.currentTime = seconds;
     this.audio.autoplay = true;
   }
@@ -142,10 +129,11 @@ class Main extends React.Component {
                     return (<div>
                       <li key={index} className="speaker-red">
                         <div className="timestamp">
-
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
                         </div>
-                        {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} ref={"word" + indexNumber} onClick={this.playWord}><Highlight search={this.state.highlighted}>{" " + word}</Highlight></span>)}
+                        {item.trim().substring(4, item.length).split(" ").map((word) => {
+                          var className = this.state.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
+                          return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.playWord}>{" " + word}</span>})}
                       </li>
                     </div>)
                   else
@@ -155,7 +143,9 @@ class Main extends React.Component {
                           <div className="timestamp">
                             {this.props.timestamps[indexNumber]}0:04
                       </div>
-                          {item.trim().substring(4, item.length).split(" ").map((word) => <span className="word" id={indexNumber++} ref={"word" + indexNumber} onClick={this.playWord}><Highlight search={this.state.highlighted}>{word + " "}</Highlight></span>)}
+                          {item.trim().substring(4, item.length).split(" ").map((word) => {
+                            var className = this.state.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
+                            return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.playWord}>{" " + word}</span>})}
                         </li>
                       </div>)
                 })}

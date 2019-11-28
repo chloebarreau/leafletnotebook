@@ -32,10 +32,6 @@
   font-size: 14px;
   margin-bottom: 4px;
 }
-.notes:target { /* doesn't seem to work */
-  background-color: orange !important;
-  border: 1px solid black !important;
-}
 
 /******Transcript******/
 .transcript {
@@ -61,10 +57,19 @@ li.speaker-red {
   padding-top: 5px;
 }
 .highlight {
-  background-color: var(--medium-green);
+  background-color: var(--main-green);
 }
-.highlight ~ .highlight {
-  background-color: white;
+span.highlight {
+  color: white !important;
+}
+.transcript::-moz-selection { /* change color of highlight */
+  background: var(--medium-green);
+}
+.transcript ::-webkit-selection {
+  background: var(--medium-green);
+}
+.transcript ::selection {
+  background: var(--medium-green);
 }
 
 
@@ -109,10 +114,6 @@ figure {
   width: 100%;
   z-index: 1;
 }
-audio::-webkit-media-controls-seek-back-button {
-  background-color: blue;
-}
-
 
 /******Tabs*****/
 .ui.tab {

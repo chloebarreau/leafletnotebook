@@ -56,9 +56,6 @@ class UploadNotes extends React.Component {
                     <Popup content='This links timestamps in your notes to the audio' basic size='mini' trigger={<div className="gray-background" ><Icon name='question' avatar style={{display: "inline-block", margin: "9px auto auto auto"}}/></div>} />
                   </div>
                 </div>
-          
-        
-
               </div>
               <br />
 

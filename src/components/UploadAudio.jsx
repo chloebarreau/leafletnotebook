@@ -91,7 +91,7 @@ class Main extends React.Component {
     const seconds = this.props.timestamps[id];
     console.log(id, seconds);
     this.audio.currentTime = seconds;
-    this.audio.autoplay = true;
+    this.audio.play();
   }
 
   render() {

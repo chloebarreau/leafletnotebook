@@ -24,18 +24,11 @@ class Tools extends React.Component {
       imageText: '',
       uploadedNotes: "true", // TRUE FOR DEMO, CHANGE TO FALSE FOR REAL USE
 
-      highlighted: "fox",
-      myRequestedRefs: {}
     };
     this.handleResultChange = this.handleResultChange.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleHighlightClick = this.handleHighlightClick.bind(this);
     this.setRef = this.setRef.bind(this);
-
-    this.playWord = this.playWord.bind(this);
-    this.keyPress = this.keyPress.bind(this);
-    this.addHighlight = this.addHighlight.bind(this);
-    this.getRefsFromChild = this.getRefsFromChild.bind(this);
   }
 
   componentDidMount() {
@@ -132,69 +125,6 @@ class Tools extends React.Component {
     });
   }
 
-  addHighlight = (event) => {
-    console.log(event.target.currentTime)
-      var allTimes = this.state.timestamps,
-        goal = event.target.currentTime;
-
-      var closestTime = allTimes.reduce(function (prev, curr) {
-        return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
-      });
-
-      var wordIndex = this.state.timestamps.indexOf(closestTime).toString();
-      var wordToHighlight = this.state.myRequestedRefs["word" + wordIndex].innerText;
-      this.setState({ highlighted: wordToHighlight });
-  }
-
-  keyPress(event) {
-    switch (event.keyCode) {
-      case 32: // space bar       
-        event.preventDefault();
-        if (this.state.playing) {
-          this.audio.pause();
-          this.setState({ playing: false })
-        } else {
-          this.audio.play();
-          this.setState({ playing: true })
-        }
-        break;
-      case 37: // left arrow key; rewinds by 5 secs
-        this.audio.currentTime -= 5;
-        break;
-      case 39: // right arrow key; skips 5 secs
-        this.audio.currentTime += 5;
-        break;
-    }
-  }
-
-
-  playWord = (e, text) => { // plays word when clicked, only works for audio files < 1 min
-    e.persist()
-    console.log("e in tools: " + e, e.target, text);
-    const id = e.target.ref;
-    console.log("event id: " + e.target.ref);
-    const seconds = parseInt(this.state.timestamps[id]);
-    console.log("seconds: " + seconds)
-    this.audio.currentTime = seconds;
-    this.audio.autoplay = true;
-  }
-
-  getRefsFromChild(childRefs) {
-    this.setState({
-      myRequestedRefs: childRefs
-    });
-    console.log("requested refs:" + childRefs["word0"]); // this should have *info*, *contact* as keys
-  }  
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.keyPress, false);
-    this.audio.addEventListener("timeupdate", this.addHighlight, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.keyPress, false);
-    this.audio.removeEventListener("timeupdate", this.addHighlight, false);
-  }
   render() {
     return (
       <div>
@@ -221,10 +151,6 @@ class Tools extends React.Component {
           
 
               <UploadAudio
-                highlighted={this.state.highlighted}
-                onClick={this.playWord.bind(this)}
-                passRefUpward={this.getRefsFromChild} 
-
                 onDataFetched={this.handleResultChange}
                 title={this.state.title}
                 setRef={this.setRef}
@@ -297,13 +223,17 @@ class Tools extends React.Component {
             </Grid.Column>
 
           </Grid.Row>
+          {/*}
           <figure>
-            <audio id="audio" ref={(audio) => { this.audio = audio }} controls currentTime="5"
-              src="http://localhost:5000/static/fieldinterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
-              Your browser does not support the
-              <code>audio</code> element.
+              <figcaption>Listen to the T-Rex:</figcaption>
+              <audio 
+                  controls
+                  src="../S2_EP2.mp3">
+                      Your browser does not support the
+                      <code>audio</code> element.
               </audio>
           </figure>
+                  */}
         </Grid>
       </div>
     );

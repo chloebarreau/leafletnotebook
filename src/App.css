@@ -32,10 +32,6 @@
   font-size: 14px;
   margin-bottom: 4px;
 }
-.notes:target { /* doesn't seem to work */
-  background-color: orange !important;
-  border: 1px solid black !important;
-}
 
 /******Transcript******/
 .transcript {
@@ -62,11 +58,9 @@ li.speaker-red {
 }
 .highlight {
   background-color: var(--main-green);
-  color: white;
-  z-index: 2;
 }
-.highlight ~ .highlight {
-  background-color: white;
+span.highlight {
+  color: white !important;
 }
 .transcript::-moz-selection { /* change color of highlight */
   background: var(--medium-green);
@@ -76,7 +70,6 @@ li.speaker-red {
 }
 .transcript ::selection {
   background: var(--medium-green);
-  z-index: 1;
 }
 
 

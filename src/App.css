@@ -3,7 +3,7 @@
   --dark-green: #237B8B;
   --medium-green: #c4efe5;
   --light-green: #f3fcf9;
-  --light-gray: #a6a6a6;
+  --light-gray: #929292;
 }
 
 /******Text/Background******/
@@ -33,7 +33,7 @@
   color: var(--main-green);
 }
 .timestamp {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--light-gray);
 }
 .note {
@@ -52,18 +52,26 @@
   padding-left: 0;
   list-style-type: none;
 }
+.transcript .timestamp {
+  padding-bottom: 4px;
+}
+.speaker {
+  color: black;
+  padding-right: 12px;
+  font-weight: 500;
+}
 li.speaker-yellow {
   background-size: 30px;
   background-color: var(--light-green);
-  padding-bottom: 8px;
+  padding-bottom: 12px;
   padding-left: 18px;
-  padding-top: 4px;
+  padding-top: 8px;
 }
 li.speaker-red {
   background-size: 30px;
-  padding-bottom: 8px;
+  padding-bottom: 12px;
   padding-left: 18px;
-  padding-top: 4px;
+  padding-top: 8px;
 }
 .highlight {
   background-color: var(--main-green);

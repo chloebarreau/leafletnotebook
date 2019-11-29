@@ -65,6 +65,7 @@ class Main extends React.Component {
                     return (<div>
                       <li key={index} className="speaker-red">
                         <div className="timestamp">
+                          <span className="speaker">Speaker 2</span>
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
                           <Button floated='right' className="news-button"
                           size='mini' circular name='newspaper'>
@@ -82,6 +83,7 @@ class Main extends React.Component {
                       <div>
                         <li key={index} className="speaker-yellow">
                           <div className="timestamp">
+                          <span className="speaker">Speaker 1</span>
                             {this.props.timestamps[indexNumber]}0:04
                       </div>
                           {item.trim().substring(4, item.length).split(" ").map((word) => {

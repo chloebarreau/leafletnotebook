@@ -143,10 +143,11 @@ function Article(props) {
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <a>
           <Icon name='clock outline icon' />
           {props.date}
-        </a>
+          <Button className="green-btn" size="mini" floated="right">
+            Pin to Highlight
+          </Button>
       </Card.Content>
     </Card>
   );

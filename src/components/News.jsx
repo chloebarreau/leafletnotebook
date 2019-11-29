@@ -42,7 +42,6 @@ export default class News extends React.Component {
     } else {
       url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=b0bf77db986a4036b14d6e70b20142c7';
     }
-    console.log(url)
     fetch(url)
       .then(result => result.json())
       .then(result => {
@@ -80,6 +79,12 @@ export default class News extends React.Component {
     console.log("data value" + data.value)
   }
 
+  onDragStart(e, url, title) {
+    console.log('data:', url, title)
+    e.dataTransfer.setData("url", url)
+    e.dataTransfer.setData("title", title)
+  }
+
   render() {
     return (
       <div>
@@ -114,14 +119,14 @@ export default class News extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <Card.Group>
-                {this.state.articles.map((item) => <Article
+                {this.state.articles.map((item) => <div style={{margin: "0 8px 16px 8px"}}draggable='true' onDragStart={(e)=>{this.onDragStart(e, item.url, item.title)}}><Article
                   image={item.urlToImage}
                   title={item.title}
                   source={item.source.name}
                   description={item.description}
                   date={item.publishedAt}
                   url={item.url}
-                />)}
+                /></div>)}
               </Card.Group>
             </Grid.Column>
           </Grid.Row>
@@ -143,11 +148,13 @@ function Article(props) {
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <a>
           <Icon name='clock outline icon' />
           {props.date}
-        </a>
+          {/*<Button className="green-btn" size="mini" floated="right">
+          Drag to Transcript
+  </Button>*/}
       </Card.Content>
     </Card>
+    
   );
 }

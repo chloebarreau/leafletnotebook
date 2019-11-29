@@ -66,6 +66,11 @@ class Main extends React.Component {
                       <li key={index} className="speaker-red">
                         <div className="timestamp">
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
+                          <Button floated='right' className="news-button"
+                          size='mini' circular name='newspaper'>
+                            <Icon name='newspaper'/>
+                            <span>CNN News: SNP Down after closing...</span>
+                          </Button>
                         </div>
                         {item.trim().substring(4, item.length).split(" ").map((word) => {
                           var className = this.props.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';

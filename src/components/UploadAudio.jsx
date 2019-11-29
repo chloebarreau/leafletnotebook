@@ -8,17 +8,18 @@ class Main extends React.Component {
     super(props);
     this.state = {
       playing: false,
+      news: {}
     };
   }
 
   fileInputRef = React.createRef();
 
- componentDidMount() {
-  // pass the requested ref here
-  this.props.passRefUpward(this.refs);
-  console.log(this.refs)
+  componentDidMount() {
+    // pass the requested ref here
+    this.props.passRefUpward(this.refs);
+    console.log(this.refs)
 
-} 
+  }
 
   downloadTxtFile = () => {
     const element = document.createElement("a");
@@ -30,9 +31,25 @@ class Main extends React.Component {
     element.click();
   }
 
+  onDragOver(e) {
+    e.preventDefault();
+  }
+
+  onDrop(e, index) {
+    let url = e.dataTransfer.getData("url");
+    let title = e.dataTransfer.getData("title");
+    console.log("received:", url, title, index)
+    this.setState(prevState => ({ // add news URL to dictionary
+      news: {
+        ...prevState.news,    // keep all other key-value pairs
+        [index]: [url, title]     // add URL and title of news story dragged to the index in transcript
+      }
+    }))
+    console.log(this.state.news)
+  }
+
   render() {
     var indexNumber = -1;
-
     return (
       <div className="transcript">
         <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
@@ -63,32 +80,51 @@ class Main extends React.Component {
                 {this.props.audioText.map((item, index) => {
                   if ((item.includes("2:: ")) && item.substring(4, item.length) != "")
                     return (<div>
-                      <li key={index} className="speaker-red">
+                      <li key={index}
+                        className="speaker-red"
+                        onDragOver={(e) => this.onDragOver(e)}
+                        onDrop={(e) => this.onDrop(e, index)}>
                         <div className="timestamp">
                           <span className="speaker">Speaker 2</span>
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
-                          <Button floated='right' className="news-button"
-                          size='mini' circular name='newspaper'>
-                            <Icon name='newspaper'/>
-                            <span>CNN News: SNP Down after closing...</span>
-                          </Button>
+                          {this.state.news[index] && <a href={this.state.news[index][0]}>
+                            <Button floated='right'
+                              className="news-button"
+                              size='mini' circular>
+                              <Icon name='newspaper' />
+                              <span>{this.state.news[index][1]}</span>
+                            </Button>
+                          </a>}
                         </div>
                         {item.trim().substring(4, item.length).split(" ").map((word) => {
-                          var className = this.props.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
-                          return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.props.playWord}>{" " + word}</span>})}
+                          var className = this.props.highlighted == indexNumber + 1 ? 'highlight' : 'not-highlight';
+                          return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.props.playWord}>{" " + word}</span>
+                        })}
                       </li>
                     </div>)
                   else
                     return (
                       <div>
-                        <li key={index} className="speaker-yellow">
+                        <li key={index} 
+                        className="speaker-yellow"
+                        onDragOver={(e) => this.onDragOver(e)}
+                        onDrop={(e) => this.onDrop(e, index)}>
                           <div className="timestamp">
-                          <span className="speaker">Speaker 1</span>
+                            <span className="speaker">Speaker 1</span>
                             {this.props.timestamps[indexNumber]}0:04
+                            {this.state.news[index] && <a href={this.state.news[index][0]}>
+                            <Button floated='right'
+                              className="news-button"
+                              size='mini' circular>
+                              <Icon name='newspaper' />
+                              <span>{this.state.news[index][1]}</span>
+                            </Button>
+                          </a>}
                       </div>
                           {item.trim().substring(4, item.length).split(" ").map((word) => {
-                            var className = this.props.highlighted == indexNumber+1 ? 'highlight' : 'not-highlight';
-                            return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.props.playWord}>{" " + word}</span>})}
+                            var className = this.props.highlighted == indexNumber + 1 ? 'highlight' : 'not-highlight';
+                            return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.props.playWord}>{" " + word}</span>
+                          })}
                         </li>
                       </div>)
                 })}

@@ -1,5 +1,6 @@
 :root {
   --main-green: #4CCCAC;
+  --dark-green: #237B8B;
   --medium-green: #c4efe5;
   --light-green: #f3fcf9;
   --light-gray: #a6a6a6;
@@ -24,10 +25,11 @@
   padding: 0 16px;
   list-style-type: none;
 }
-.notes ul li {
-  cursor: pointer;
-}
 .notes ul li:hover {
+  cursor: pointer;
+  color: var(--main-green);
+}
+.notes ul li:hover > .timestamp{
   color: var(--main-green);
 }
 .timestamp {

@@ -87,14 +87,14 @@ class Main extends React.Component {
                         <div className="timestamp">
                           <span className="speaker">Speaker 2</span>
                           {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
-                          {this.state.news[index] && <a href={this.state.news[index][0]}>
-                            <Button floated='right'
-                              className="news-button"
-                              size='mini' circular>
+                          {this.state.news[index] &&
+                            <a
+                              href={this.state.news[index][0]}
+                              target="_blank"
+                              class="news-button ui right floated button circular mini" >
                               <Icon name='newspaper' />
                               <span>{this.state.news[index][1]}</span>
-                            </Button>
-                          </a>}
+                            </a>}
                         </div>
                         {item.trim().substring(4, item.length).split(" ").map((word) => {
                           var className = this.props.highlighted == indexNumber + 1 ? 'highlight' : 'not-highlight';
@@ -105,22 +105,22 @@ class Main extends React.Component {
                   else
                     return (
                       <div>
-                        <li key={index} 
-                        className="speaker-yellow"
-                        onDragOver={(e) => this.onDragOver(e)}
-                        onDrop={(e) => this.onDrop(e, index)}>
+                        <li key={index}
+                          className="speaker-yellow"
+                          onDragOver={(e) => this.onDragOver(e)}
+                          onDrop={(e) => this.onDrop(e, index)}>
                           <div className="timestamp">
                             <span className="speaker">Speaker 1</span>
                             {this.props.timestamps[indexNumber]}0:04
-                            {this.state.news[index] && <a href={this.state.news[index][0]}>
-                            <Button floated='right'
-                              className="news-button"
-                              size='mini' circular>
-                              <Icon name='newspaper' />
-                              <span>{this.state.news[index][1]}</span>
-                            </Button>
-                          </a>}
-                      </div>
+                            {this.state.news[index] &&
+                              <a
+                                href={this.state.news[index][0]}
+                                target="_blank"
+                                class="news-button ui right floated button circular mini" >
+                                <Icon name='newspaper' />
+                                <span>{this.state.news[index][1]}</span>
+                              </a>}
+                          </div>
                           {item.trim().substring(4, item.length).split(" ").map((word) => {
                             var className = this.props.highlighted == indexNumber + 1 ? 'highlight' : 'not-highlight';
                             return <span className={className} id={indexNumber++} ref={indexNumber} onClick={this.props.playWord}>{" " + word}</span>

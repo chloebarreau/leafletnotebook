@@ -21,6 +21,7 @@ const basicTextStylePlugin = {
   }
 };
 
+
 class TextEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -65,7 +66,7 @@ class TextEditor extends React.Component {
   // Render the editor.
   render() {
     return (
-      <Segment>
+      <Segment className="editor-segment">
         <Button icon size='mini' onClick={this._onBoldClick.bind(this)}><Icon name='bold'/></Button>
         <Button icon size='mini' onClick={this._onItalicClick.bind(this)}><Icon name='italic'/></Button>
         <div className="editor" onClick={this.focus}>

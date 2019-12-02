@@ -1,15 +1,17 @@
 // Main code from https://medium.com/excited-developers/file-upload-with-react-flask-e115e6f2bf99
 import React from 'react';
 import { Button, Input, Icon, Menu, Segment } from 'semantic-ui-react'
-import Highlight from 'react-highlighter'
+import TextEditor from './TextEditor'
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       playing: false,
-      news: {}
+      news: {},
+      editing: false
     };
+    this.showEditor = this.showEditor.bind(this)
   }
 
   fileInputRef = React.createRef();
@@ -29,6 +31,12 @@ class Main extends React.Component {
     element.download = "transcript.txt";
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
+  }
+
+  showEditor() {
+    this.setState(prevState => ({
+      editing: !prevState.editing
+    }));
   }
 
   onDragOver(e) {
@@ -52,7 +60,7 @@ class Main extends React.Component {
     var indexNumber = -1;
     return (
       <div className="transcript">
-        <Segment className="no-border" style={{ overflow: 'auto', maxHeight: '90vh' }}>
+        <Segment className="no-border" style={{ overflow: 'auto', maxHeight: this.state.editing== true ? '45vh' : '82vh'}}>
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
             {this.props.uploaded == "false" && <div>
               <label for="hidden-new-audio-file" class="ui button green">
@@ -69,7 +77,11 @@ class Main extends React.Component {
 
             <h2>{this.props.title}</h2>
             <div className="right-btn">
-              <Button icon size='mini' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
+              <Button icon size='small'
+                onClick={this.showEditor}
+                style={{ padding: "9px 16px", marginRight: "16px" }}
+                className="green-btn">{this.state.editing == true ? 'Done' : 'Edit'}</Button> {/* Conditionally render text so when you're editing it says "Done"*/}
+              <Button icon size='small' onClick={this.downloadTxtFile}><Icon name='share square outline icon' /></Button>
             </div>
           </div>
           <form onSubmit={this.handleUploadAudio} encType="multipart/form-data"> {/* change Audio to Text to revert*/}
@@ -142,6 +154,7 @@ class Main extends React.Component {
         */}
           </form>
         </Segment>
+      {this.state.editing == true && <TextEditor audioText={this.props.audioText.join("\r\n").replace(/::/g, ":")}/> }
       </div>
     );
   }

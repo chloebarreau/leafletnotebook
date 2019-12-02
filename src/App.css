@@ -129,8 +129,8 @@ span.highlight {
 /******Audio******/
 audio {
   filter: sepia(100%) saturate(70%) grayscale(1) contrast(99%) invert(6%);
-  width: 60%;
-  height: 48px;
+  width: 63%;
+  height: 44px;
   background-color: #ededed;
   box-shadow:  0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.20);
   -moz-border-radius: 8px;
@@ -178,7 +178,11 @@ figure {
 }
 
 /******TextEditors******/
-
+.editor-segment {
+  overflow: auto;
+  max-height: 36vh;
+  margin-left: 16px !important;
+}
 .editor {
   border-top: 1px solid #ddd;
   cursor: text;

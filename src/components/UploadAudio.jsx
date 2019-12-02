@@ -154,7 +154,7 @@ class Main extends React.Component {
         */}
           </form>
         </Segment>
-      {this.state.editing == true && <TextEditor audioText={this.props.audioText.join("\r\n")}/> }
+      {this.state.editing == true && <TextEditor audioText={this.props.audioText.join("\r\n").replace(/::/g, ":")}/> }
       </div>
     );
   }

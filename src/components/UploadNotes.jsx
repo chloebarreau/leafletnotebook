@@ -27,7 +27,7 @@ class UploadNotes extends React.Component {
 
               <div>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                  {/*<Header as='h3'>Notes</Header>*/} <Button onClick={this.props.handleClickDemo} className="green-btn">Upload Notes</Button>
+                  {/*<Header as='h3'>Notes</Header>*/} {/*<Button onClick={this.props.handleClickDemo} className="green-btn">Upload Notes</Button>*/}
                 {/*} REAL UPLOAD BUTTON, DO NOT DELETE:
                 <label for="hidden-new-file" className="ui button green">
                   Upload Notes
@@ -50,10 +50,9 @@ class UploadNotes extends React.Component {
 
               <Segment className="notes">
                 <ul>
-                  <li onClick={this.props.playQuote}><div className="timestamp">0:04</div><div className="note">"my class needs some really good traitors these days"</div></li>
-                  <li onClick={this.props.playQuote}><div className="timestamp">0:16</div><div className="note">"create the best and fairest country"</div></li>
-                  <li onClick={this.props.playQuote}><div className="timestamp">0:24</div><div className="note">"want to live in a world that doesn't need philanthropy"</div></li>
-                  <li onClick={this.props.playQuote}><div className="timestamp">0:48</div><div className="note">"prefer that public schools function..."</div></li>
+                  <li onClick={this.props.playQuote}><div className="timestamp">0:22</div><div className="note">Row's accessible</div></li>
+                  <li onClick={this.props.playQuote}><div className="timestamp">0:37</div><div className="note">ability to choose</div></li>
+                  <li onClick={this.props.playQuote}><div className="timestamp">0:43</div><div className="note">unique privilege at Stanford</div></li>
                 </ul>
               </Segment>
 

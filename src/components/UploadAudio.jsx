@@ -57,7 +57,8 @@ class Main extends React.Component {
   }
 
   render() {
-    var indexNumber = -1;
+    var indexNumber = 0;
+
     return (
       <div className="transcript">
         <Segment className="no-border" style={{ overflow: 'auto', maxHeight: this.state.editing== true ? '45vh' : '82vh'}}>
@@ -98,7 +99,7 @@ class Main extends React.Component {
                         onDrop={(e) => this.onDrop(e, index)}>
                         <div className="timestamp">
                           <span className="speaker">Speaker 2</span>
-                          {this.props.timestamps[indexNumber]}0:04 {/* FAKE TIMESTAMP FOR DEMO PUPROSES*/}
+                          {this.props.convertedTimestamps[indexNumber].toString().replace(".", ":")}
                           {this.state.news[index] &&
                             <a
                               href={this.state.news[index][0]}
@@ -123,7 +124,7 @@ class Main extends React.Component {
                           onDrop={(e) => this.onDrop(e, index)}>
                           <div className="timestamp">
                             <span className="speaker">Speaker 1</span>
-                            {this.props.timestamps[indexNumber]}0:04
+                            {this.props.convertedTimestamps[indexNumber].toString().replace(".", ":")}
                             {this.state.news[index] &&
                               <a
                                 href={this.state.news[index][0]}

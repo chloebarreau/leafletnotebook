@@ -10,14 +10,15 @@ class Tools extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
+      title: "Interview with Joey",
       quotes: "",
 
       audioURL: '', // added
-      audioText: ['1:: Okay, we can just I definitely do think ', "2:: that my time here. I've definitely felt like my disability has been more of a concern in the end, you know that in a positive way. Like I feel more looked after then I ", "1:: have an any educational institution. That's wonderful. That's crazy. And even like like this is such a good dumb example, but like on like the row every house is accessible at least the first floor. Oh, wow, like that's not something that you will find. ", '2:: Our ', "1:: universities. Yeah, and so the idea like even like if I don't ", "2:: want to go like I'd say, I don't want to go to a party like I don't know but the idea ", "1:: that I it's it's a choice I get to make whether I ", "2:: want to go or not, right? That's a really large. Yeah privilege. I don't I wouldn't have gotten really anywhere ", "1:: else. Yeah, like that's awesome. Yeah, I didn't even realize that that's right. Like I because I was driving to the like the dumb president reception. That was such a dumb event. Oh, yeah, you guys had to go to the"],
-      timestamps: [],
+      audioText: ['1::  I definitely do think ', '2:: that my time here. I definitely felt like my disability has been more of a concern in the end, you know that in a positive way. Like I feel more looked after than I ', "1:: have in any educational institution. That's wonderful. That's crazy. And even like like this is the to go dumb example, but like", "2:: on like the row every house is accessible at least the first floor. Oh, wow, like that's not something that you will find at other universities.", "1:: Yeah. Yeah, and so like the idea like even like if I don't ", "2:: want to go like I'd say, I don't want to go too far. Like I don't know but ", "1:: the idea that I it's it's a choice I get to make whether I ", "2:: want to go or not, right? That's a really large. Yeah privilege. I don't I wouldn't have gotten really anywhere else. Yeah, like that's awesome. Yeah, I ", "1:: didn't even realize that that's and like I because I was driving to the"],
+      timestamps: [0, 0.2, 0.3, 0.8, 1.0, 1.3, 2.4, 2.7, 3.1, 4.1, 4.4, 4.7, 4.9, 5.7, 6.3, 6.8, 7.0, 7.5, 7.9, 8.0, 8.0, 9.1, 9.2, 9.3, 9.5, 9.5, 9.6, 9.8, 9.9, 9.9, 10.5, 10.6, 11.3, 11.5, 11.8, 12.3, 12.5, 12.8, 13.0, 13.1, 14.1, 14.4, 14.6, 15.2, 15.7, 15.9, 16.5, 16.7, 18.2, 18.4, 18.7, 19.9, 20.1, 20.3, 20.3, 20.5, 20.6, 20.8, 21.0, 21.5, 21.6, 22.2, 22.4, 22.7, 22.9, 23.6, 24.0, 24.3, 24.5, 24.9, 25.0, 25.2, 25.3, 25.5, 26.0, 26.2, 27.0, 27.3, 27.5, 27.7, 28.0, 28.2, 28.3, 28.4, 28.7, 28.7, 28.9, 29.6, 30.0, 30.5, 31.5, 31.6, 31.8, 31.9, 32.2, 32.6, 32.9, 33.0, 33.2, 33.2, 33.4, 33.6, 33.7, 33.8, 34.1, 34.3, 34.5, 34.6, 34.7, 34.9, 34.9, 35.0, 35.1, 35.3, 35.6, 35.6, 35.8, 36.5, 36.9, 37.0, 37.2, 37.4, 37.7, 37.9, 38.2, 38.3, 38.9, 39.1, 39.3, 39.4, 39.7, 40.0, 40.1, 40.4, 40.5, 40.6, 40.7, 41.1, 41.7, 42.0, 42.0, 42.4, 43.0, 43.2, 43.7, 43.8, 44.4, 44.5, 44.8, 44.9, 45.2, 45.4, 45.7, 45.9, 46.2, 46.6, 46.8, 47.6, 47.8, 47.9, 48.0, 48.5, 48.8, 49.2, 49.5, 49.7, 49.9, 50.2, 50.5, 50.5, 50.7, 51.1, 51.3],
+      convertedTimestamps: ["0.00", "0.2", "0.3", "0.8", "1.0", "0:01", "2.4", "2.7", "3.1", "4.1", "4.4", "4.7", "4.9", 5.7, 6.3, 6.8, 7.0, 7.5, 7.9, 8.0, 8.0, 9.1, 9.2, 9.3, 9.5, 9.5, 9.6, 9.8, 9.9, 9.9, 10.5, 10.6, 11.3, 11.5, 11.8, 12.3, 12.5, 12.8, 13.0, "0:13", 14.1, 14.4, 14.6, 15.2, 15.7, 15.9, 16.5, 16.7, 18.2, 18.4, 18.7, 19.9, 20.1, 20.3, 20.3, 20.5, 20.6, 20.8, 21.0, 21.5, 21.6, "0:22", 22.4, 22.7, "0:23", 23.6, 24.0, 24.3, 24.5, 24.9, 25.0, 25.2, "0:25", 25.5, "0:26", 26.2, 27.0, 27.3, 27.5, 27.7, 28.0, 28.2, 28.3, 28.4, 28.7, 28.7, 28.9, "0:29", 30.0, 30.5, 31.5, 31.6, 31.8, 31.9, 32.2, 32.6, 32.9, 33.0, 33.2, 33.2, "0:33", 33.6, 33.7, 33.8, 34.1, 34.3, 34.5, 34.6, 34.7, 34.9, 34.9, 35.0, 35.1, 35.3, 35.6, 35.6, 35.8, 36.5, "0:37", 37.0, 37.2, 37.4, 37.7, 37.9, 38.2, 38.3, 38.9, 39.1, 39.3, 39.4, 39.7, 40.0, "0:40", 40.4, 40.5, 40.6, 40.7, 41.1, 41.7, 42.0, 42.0, 42.4, 43.0, 43.2, 43.7, 43.8, 44.4, 44.5, 44.8, 44.9, 45.2, 45.4, 45.7, 45.9, 46.2, 46.6, 46.8, 47.6, 47.8, "0:48", 48.0, 48.5, 48.8, 49.2, 49.5, 49.7, 49.9, 50.2, 50.5, 50.5, 50.7, 51.1, 51.3],
       roundedTimestamps: [],
-      uploaded: "false",
+      uploaded: "true",
 
       imageURL: '',
       imageText: '',
@@ -65,15 +66,25 @@ class Tools extends React.Component {
         
         console.log("before rounding")
         var roundedTimestamps = [];
+        var convertedTimestamps = [];
         if (this.state.timestamps.length > 0) {
           this.state.timestamps.forEach(roundTimestamps);
         }
         function roundTimestamps(item) {
-          roundedTimestamps.push(Math.round(item));
+          var round = Math.round(item)
+          roundedTimestamps.push(round);
+          if (round < 10) {
+            convertedTimestamps.push("0:" + "0" + round.toString())
+          } else {
+            convertedTimestamps.push("0:" + round.toString())
+          }
         }
-        this.setState({ roundedTimestamps: roundedTimestamps });
+        this.setState({ 
+          roundedTimestamps: roundedTimestamps,
+          convertedTimestamps: convertedTimestamps 
+         });
 
-        console.log(this.state.roundedTimestamps)
+        console.log("converted:", this.state.convertedTimestamps)
 
         console.log("Video transcript: " + this.state.audioText);
         console.log("Timestamps: " + this.state.timestamps);
@@ -148,8 +159,8 @@ class Tools extends React.Component {
 
   keyPress(event) {
     switch (event.keyCode) {
-      case 32: // space bar       
-        event.preventDefault();
+      /*
+      case 32: // space bar    
         if (this.state.playing) {
           this.audio.pause();
           this.setState({ playing: false })
@@ -157,7 +168,7 @@ class Tools extends React.Component {
           this.audio.play();
           this.setState({ playing: true })
         }
-        break;
+      break;*/
       case 37: // left arrow key; rewinds by 5 secs
         this.audio.currentTime -= 5;
         break;
@@ -225,6 +236,7 @@ class Tools extends React.Component {
               </Menu>
 
               <UploadAudio
+                ref={elem => this.uploadAudio = elem}
                 highlighted={this.state.highlighted}
                 playWord={this.playWord.bind(this)}
                 passRefUpward={this.getRefsFromChild} 
@@ -237,6 +249,7 @@ class Tools extends React.Component {
                 audioText={this.state.audioText}
                 timestamps={this.state.timestamps}
                 roundedTimestamps={this.state.roundedTimestamps}
+                convertedTimestamps={this.state.convertedTimestamps}
                 uploaded={this.state.uploaded}
               />
               {/*}
@@ -303,7 +316,7 @@ class Tools extends React.Component {
           </Grid.Row>
           <figure>
             <audio id="audio" ref={(audio) => { this.audio = audio }} controls currentTime="5"
-              src="http://localhost:5000/static/fieldinterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
+              src="http://localhost:5000/static/DemoInterview.flac"> {/*{this.props.audioURL} FOR FINAL*/}
               Your browser does not support the
               <code>audio</code> element.
               </audio>

@@ -10,7 +10,7 @@
     "react-highlighter": "^0.4.3",
     "react-router-dom": "^5.1.2",
     "react-router-hash-link": "^1.2.2",
-    "react-scripts": "3.2.0",
+    "react-scripts": "5.0.1",
     "semantic-ui": "^2.4.2",
     "semantic-ui-react": "^0.88.1"
   },
